@@ -4,7 +4,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import ShopContextProvider from "./context/ShopContext";
 import { createStackNavigator } from "@react-navigation/stack";
-import { LogBox } from "react-native";
+import { LogBox, View, Text } from "react-native";
 
 import Home from "./screens/Home";
 import Collection from "./screens/Collection";

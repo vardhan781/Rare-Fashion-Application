@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
+import { useContext, useState, useRef, useEffect } from "react";
 import {
   StyleSheet,
   TextInput,
@@ -20,16 +20,12 @@ import { useFonts } from "expo-font";
 import Fuse from "fuse.js";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import * as Progress from 'react-native-progress';
+import * as Progress from "react-native-progress";
+import { Ionicons } from "@expo/vector-icons";
 
 const Collection = () => {
-  const {
-    products,
-    category,
-    toggleCategory,
-    toggleWishlist,
-    isInWishlist,
-  } = useContext(ShopContext);
+  const { products, category, toggleCategory, toggleWishlist, isInWishlist } =
+    useContext(ShopContext);
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [showFilter, setShowFilter] = useState(false);
   const [sortOption, setSortOption] = useState("preference");
@@ -38,6 +34,7 @@ const Collection = () => {
   const [isLoading, setIsLoading] = useState(true);
   const slideAnim = useRef(new Animated.Value(0)).current;
   const windowHeight = Dimensions.get("window").height;
+  const windowWidth = Dimensions.get("window").width;
   const searchInputRef = useRef(null);
   const navigation = useNavigation();
 
@@ -68,19 +65,16 @@ const Collection = () => {
   const applyFilter = () => {
     let result = [...products];
 
-    // Apply search filter
     if (search) {
       const fuse = new Fuse(result, fuseOptions);
       const searchResults = fuse.search(search);
       result = searchResults.map((item) => item.item);
     }
 
-    // Apply category filters
     if (category.length > 0) {
       result = result.filter((product) => category.includes(product.category));
     }
 
-    // Apply sorting
     if (sortOption === "high-low") {
       result.sort((a, b) => b.price - a.price);
     } else if (sortOption === "low-high") {
@@ -107,6 +101,10 @@ const Collection = () => {
     if (e.nativeEvent.key === "Enter") {
       searchInputRef.current.blur();
     }
+  };
+
+  const clearSearch = () => {
+    setSearch("");
   };
 
   const toggleFilterModal = () => {
@@ -160,10 +158,10 @@ const Collection = () => {
   if (!fontsLoaded || isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <Progress.Circle 
-          size={40} 
-          indeterminate={true} 
-          color="hotpink" 
+        <Progress.Circle
+          size={40}
+          indeterminate={true}
+          color="hotpink"
           borderWidth={4}
           endAngle={0.8}
         />
@@ -198,7 +196,16 @@ const Collection = () => {
               onSubmitEditing={handleKeyDown}
               returnKeyType="search"
               maxLength={60}
+              selectionColor="hotpink"
             />
+            {search.length > 0 && (
+              <TouchableOpacity
+                onPress={clearSearch}
+                style={styles.clearButton}
+              >
+                <Ionicons name="close-circle" size={18} color="gray" />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
         <Pressable onPress={() => navigation.navigate("Wishlist")}>
@@ -233,17 +240,20 @@ const Collection = () => {
             )}
             numColumns={2}
             contentContainerStyle={styles.flatListContent}
-            ListFooterComponent={<View style={{ height: 60 }} />}
+            ListFooterComponent={<View style={{ height: 80 }} />}
           />
         )}
       </View>
 
-      {/* Filter Button at Bottom */}
-      <TouchableOpacity style={styles.filterButton} onPress={toggleFilterModal}>
-        <Text style={styles.filterButtonText}>FILTER & SORT</Text>
-      </TouchableOpacity>
+      <View style={styles.filterButtonContainer}>
+        <TouchableOpacity
+          style={styles.filterButton}
+          onPress={toggleFilterModal}
+        >
+          <Text style={styles.filterButtonText}>FILTER & SORT</Text>
+        </TouchableOpacity>
+      </View>
 
-      {/* Filter Modal */}
       {showFilter && (
         <Modal transparent={true} visible={showFilter} animationType="none">
           <Animated.View
@@ -255,12 +265,11 @@ const Collection = () => {
             <View style={styles.filterHeader}>
               <Text style={styles.filterHeaderText}>FILTERS</Text>
               <TouchableOpacity onPress={toggleFilterModal}>
-                <Image source={assets.close_icon} style={styles.closeIcon} />
+                <Ionicons name="close" size={24} color="#333" />
               </TouchableOpacity>
             </View>
 
             <ScrollView style={styles.filterContent}>
-              {/* Categories Section */}
               <View style={styles.filterSection}>
                 <Text style={styles.filterSectionTitle}>CATEGORIES</Text>
                 <View style={styles.categoryContainer}>
@@ -288,7 +297,6 @@ const Collection = () => {
                 </View>
               </View>
 
-              {/* Sort Section */}
               <View style={styles.filterSection}>
                 <Text style={styles.filterSectionTitle}>SORT BY</Text>
                 {sortOptions.map((option) => (
@@ -308,7 +316,6 @@ const Collection = () => {
               </View>
             </ScrollView>
 
-            {/* Filter Footer with Apply Button */}
             <View style={styles.filterFooter}>
               <TouchableOpacity
                 style={styles.resetButton}
@@ -355,26 +362,30 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 24,
     borderColor: "hotpink",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
     backgroundColor: "#fff",
   },
   searchIcon: {
-    height: 26,
-    width: 26,
+    height: 22,
+    width: 22,
   },
   searchInput: {
     flex: 1,
-    height: 20,
     fontSize: 14,
     fontFamily: "Prata-Regular",
     color: "#333",
+    padding: 0,
+    minHeight: 20,
+  },
+  clearButton: {
+    padding: 5,
   },
   collectionModule: {
     flex: 1,
     paddingHorizontal: 10,
     marginTop: 20,
-    marginBottom: 50,
+    marginBottom:50
   },
   flatListContent: {
     paddingBottom: 20,
@@ -385,11 +396,14 @@ const styles = StyleSheet.create({
     height: 32,
     flex: 0,
   },
-  filterButton: {
+  filterButtonContainer: {
     position: "absolute",
     bottom: 20,
     left: 20,
     right: 20,
+    zIndex: 10,
+  },
+  filterButton: {
     backgroundColor: "hotpink",
     borderRadius: 25,
     paddingVertical: 15,
@@ -437,10 +451,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     color: "#333",
-  },
-  closeIcon: {
-    width: 24,
-    height: 24,
   },
   filterContent: {
     flex: 1,
@@ -562,9 +572,9 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fbeaea',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fbeaea",
     padding: 20,
   },
 });

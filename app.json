@@ -15,15 +15,23 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "extra": {
+      "backendUrl": "https://rare-fashion-backend.vercel.app",
+      "eas": {
+        "projectId": "440d40dd-a083-4169-bbb7-9084d7543a85"
+      }
+    },
     "android": {
       "package": "com.rarefashion.rarefashion",
       "versionCode": 1,
+      "permissions": [
+        "INTERNET"
+      ],
+      "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
         "foregroundImage": "./assets/fashion.png",
         "backgroundColor": "#fbeaea"
-      },
-      "permissions": [],
-      "softwareKeyboardLayoutMode": "pan"
+      }
     },
     "updates": {
       "fallbackToCacheTimeout": 0

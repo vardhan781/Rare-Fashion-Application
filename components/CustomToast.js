@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { Animated, StyleSheet, Text, View } from "react-native";
+import { useEffect, useRef } from "react";
+import { Animated, StyleSheet, Text } from "react-native";
 
 const CustomToast = ({ visible, type, message }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;

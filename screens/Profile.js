@@ -6,12 +6,14 @@ import {
   ScrollView,
   Pressable,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
-import React from "react";
 import { assets } from "../assets/assets";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+const { width, height } = Dimensions.get("window");
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -52,7 +54,7 @@ const Profile = () => {
                 <Pressable onPress={() => navigation.navigate("Wishlist")}>
                   <Image
                     source={assets.wishprofile}
-                    style={[styles.thing_img, { marginLeft: 8 }]}
+                    style={[styles.thing_img, { marginLeft: width * 0.02 }]}
                   />
                   <Text style={styles.thing_name}>WishList</Text>
                 </Pressable>
@@ -107,8 +109,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fbeaea",
-    paddingHorizontal: 20,
-    paddingVertical: 8,
+    paddingHorizontal: width * 0.05,
+    paddingVertical: height * 0.01,
   },
   navbar: {
     display: "flex",
@@ -117,46 +119,51 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   navbar_profile: {
-    width: 65,
-    height: 65,
+    width: width * 0.15,
+    height: width * 0.15,
+    maxWidth: 65,
+    maxHeight: 65,
   },
   navbar_arrow: {
-    width: 34,
-    height: 34,
+    width: width * 0.08,
+    height: width * 0.08,
+    maxWidth: 34,
+    maxHeight: 34,
   },
   greeting: {
-    fontSize: 20,
+    fontSize: width * 0.05,
     fontWeight: "600",
     color: "#333",
     fontFamily: "Lato_600SemiBold",
   },
   username: {
     color: "#FF3E6C",
-    fontSize: 20,
+    fontSize: width * 0.05,
     fontWeight: "700",
   },
   scrollContainer: {
     flexGrow: 1,
     alignItems: "center",
+    paddingBottom: height * 0.05,
   },
   links: {
     display: "flex",
     flexDirection: "column",
-    gap: 15,
-    marginTop: 30,
+    gap: height * 0.02,
+    marginTop: height * 0.04,
     width: "100%",
     alignItems: "center",
   },
   ind_link: {
     display: "flex",
     flexDirection: "column",
-    gap: 15,
+    gap: height * 0.02,
     alignItems: "center",
     width: "100%",
     justifyContent: "center",
   },
   head_link: {
-    fontSize: 28,
+    fontSize: width * 0.07,
     fontFamily: "Outfit-SemiBold",
     color: "#454040",
     width: "100%",
@@ -170,23 +177,25 @@ const styles = StyleSheet.create({
     width: "100%",
     borderTopColor: "#FFC2C2",
     borderTopWidth: 3,
-    paddingVertical: 22,
-    paddingHorizontal: 15,
+    paddingVertical: height * 0.025,
+    paddingHorizontal: width * 0.04,
   },
   ind_thing: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    gap: 10,
+    gap: height * 0.01,
   },
   thing_img: {
-    width: 52,
-    height: 52,
+    width: width * 0.13,
+    height: width * 0.13,
+    maxWidth: 52,
+    maxHeight: 52,
   },
   thing_name: {
     fontFamily: "Inter",
-    fontSize: 16,
+    fontSize: width * 0.04,
     textAlign: "center",
-    marginTop: 10,
+    marginTop: height * 0.01,
   },
 });

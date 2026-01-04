@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,13 +7,17 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  SafeAreaView,
+  Dimensions,
 } from "react-native";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import { ShopContext } from "../context/ShopContext";
 import CustomToast from "./CustomToast";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
+
+const { width, height } = Dimensions.get("window");
 
 const PlaceOrder = () => {
   const {
@@ -99,6 +103,13 @@ const PlaceOrder = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
+        <Ionicons name="arrow-back" size={width * 0.06} color="#333" />
+      </TouchableOpacity>
+
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.deliveryInfo}>
           <Text style={styles.sectionTitle}>Delivery Information</Text>
@@ -188,20 +199,20 @@ const PlaceOrder = () => {
 
           <View style={styles.amountDetail}>
             <View style={styles.amountRow}>
-              <Text>Subtotal</Text>
-              <Text>
+              <Text style={styles.amountText}>Subtotal</Text>
+              <Text style={styles.amountText}>
                 {getCartAmount()}.00 {currency}
               </Text>
             </View>
             <View style={styles.amountRow}>
-              <Text>Delivery Charges</Text>
-              <Text>
+              <Text style={styles.amountText}>Delivery Charges</Text>
+              <Text style={styles.amountText}>
                 {deliveryCharge()}.00 {currency}
               </Text>
             </View>
             <View style={[styles.amountRow, styles.totalRow]}>
-              <Text style={styles.boldText}>Total</Text>
-              <Text style={styles.boldText}>
+              <Text style={[styles.boldText, styles.totalLabel]}>Total</Text>
+              <Text style={[styles.boldText, styles.totalAmount]}>
                 {(getCartAmount() + deliveryCharge()).toFixed(2)} {currency}
               </Text>
             </View>
@@ -241,38 +252,48 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#ffeef2",
   },
+  backButton: {
+    position: "absolute",
+    top: height * 0.04,
+    left: width * 0.04,
+    zIndex: 10,
+    backgroundColor: "rgba(255,255,255,0.7)",
+    borderRadius: width * 0.05,
+    padding: width * 0.02,
+  },
   container: {
-    padding: 16,
+    padding: width * 0.04,
     backgroundColor: "#ffeef2",
+    paddingTop: height * 0.06,
   },
   deliveryInfo: {
     backgroundColor: "#fff0f5",
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
+    borderRadius: width * 0.03,
+    padding: width * 0.04,
+    marginBottom: height * 0.016,
     borderColor: "#ffc0cb",
     borderWidth: 1,
   },
   orderSummary: {
     backgroundColor: "#fff0f5",
-    borderRadius: 12,
-    padding: 16,
+    borderRadius: width * 0.03,
+    padding: width * 0.04,
     borderColor: "#ffc0cb",
     borderWidth: 1,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: width * 0.05,
     fontWeight: "700",
     color: "#d63384",
-    marginBottom: 16,
+    marginBottom: height * 0.016,
   },
   input: {
     borderWidth: 1,
     borderColor: "#ffc0cb",
-    borderRadius: 8,
-    padding: 12,
-    marginBottom: 12,
-    fontSize: 16,
+    borderRadius: width * 0.02,
+    padding: height * 0.012,
+    marginBottom: height * 0.012,
+    fontSize: width * 0.04,
     backgroundColor: "#fff",
   },
   inputRow: {
@@ -283,16 +304,20 @@ const styles = StyleSheet.create({
     width: "48%",
   },
   amountDetail: {
-    marginVertical: 16,
+    marginVertical: height * 0.016,
   },
   amountRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 8,
+    marginBottom: height * 0.008,
+  },
+  amountText: {
+    fontSize: width * 0.038,
+    color: "#555",
   },
   totalRow: {
-    marginTop: 8,
-    paddingTop: 8,
+    marginTop: height * 0.008,
+    paddingTop: height * 0.008,
     borderTopWidth: 1,
     borderTopColor: "#ddd",
   },
@@ -300,50 +325,56 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#d63384",
   },
+  totalLabel: {
+    fontSize: width * 0.045,
+  },
+  totalAmount: {
+    fontSize: width * 0.045,
+  },
   paymentOption: {
-    marginTop: 16,
+    marginTop: height * 0.016,
   },
   paymentTitle: {
-    fontSize: 16,
+    fontSize: width * 0.04,
     fontWeight: "600",
-    marginBottom: 12,
+    marginBottom: height * 0.012,
     color: "#c2185b",
   },
   paymentMethod: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: height * 0.016,
   },
   paymentSelection: {
     flexDirection: "row",
     alignItems: "center",
   },
   optionSelection: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    width: width * 0.05,
+    height: width * 0.05,
+    borderRadius: width * 0.025,
     borderWidth: 1,
     borderColor: "#c2185b",
-    marginRight: 10,
+    marginRight: width * 0.025,
   },
   selectedOption: {
     backgroundColor: "#f48fb1",
     borderColor: "#f06292",
   },
   paymentMethodText: {
-    fontSize: 16,
+    fontSize: width * 0.04,
     color: "#6a1b9a",
   },
   placeOrderButton: {
     backgroundColor: "#d63384",
-    borderRadius: 8,
-    padding: 16,
+    borderRadius: width * 0.02,
+    padding: height * 0.016,
     alignItems: "center",
-    marginTop: 10,
+    marginTop: height * 0.01,
   },
   placeOrderButtonText: {
     color: "white",
-    fontSize: 16,
+    fontSize: width * 0.04,
     fontWeight: "bold",
   },
 });

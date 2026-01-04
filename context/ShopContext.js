@@ -2,11 +2,12 @@ import { createContext, useEffect, useState } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomToast from "../components/CustomToast";
+import Constants from "expo-constants";
 
 export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
-  const serverUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
+  const serverUrl = Constants.expoConfig.extra.backendUrl;
 
   const delivery_fee = 10;
   const currency = "$";

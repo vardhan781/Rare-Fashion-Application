@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
+  Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
@@ -15,8 +16,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ShopContext } from "../context/ShopContext";
 import CustomToast from "../components/CustomToast";
 
+const { width, height } = Dimensions.get("window");
+
 const Otp = ({ route }) => {
-  // Keep all existing state and logic exactly the same
   const navigation = useNavigation();
   const { email, generatedOtp } = route.params;
   const { serverUrl, setToken } = useContext(ShopContext);
@@ -169,69 +171,69 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: "rgba(255, 255, 255, 0.85)",
-    borderRadius: 24,
-    padding: 32,
-    marginHorizontal: 24,
+    borderRadius: width * 0.06,
+    padding: width * 0.08,
+    marginHorizontal: width * 0.06,
     shadowColor: "#FF5C8A",
-    shadowOffset: { width: 0, height: 8 },
+    shadowOffset: { width: 0, height: height * 0.008 },
     shadowOpacity: 0.1,
-    shadowRadius: 16,
+    shadowRadius: width * 0.04,
     elevation: 8,
   },
   title: {
-    fontSize: 24,
+    fontSize: width * 0.06,
     fontWeight: "600",
     color: "#FF5C8A",
-    marginBottom: 8,
+    marginBottom: height * 0.008,
     textAlign: "center",
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: width * 0.035,
     color: "#8A4F7D",
-    marginBottom: 32,
+    marginBottom: height * 0.032,
     textAlign: "center",
   },
   inputContainer: {
-    marginBottom: 24,
+    marginBottom: height * 0.024,
   },
   label: {
     color: "#FF5C8A",
-    marginBottom: 8,
-    fontSize: 14,
+    marginBottom: height * 0.008,
+    fontSize: width * 0.035,
     fontWeight: "500",
   },
   input: {
     backgroundColor: "rgba(255, 255, 255, 0.9)",
     borderWidth: 1,
     borderColor: "#FFD1DC",
-    padding: 16,
-    borderRadius: 12,
-    fontSize: 16,
+    padding: height * 0.016,
+    borderRadius: width * 0.03,
+    fontSize: width * 0.04,
     color: "#8A4F7D",
     textAlign: "center",
-    letterSpacing: 8,
+    letterSpacing: width * 0.02,
   },
   button: {
-    borderRadius: 12,
+    borderRadius: width * 0.03,
     overflow: "hidden",
-    marginTop: 16,
+    marginTop: height * 0.016,
   },
   buttonGradient: {
-    padding: 16,
+    padding: height * 0.016,
     alignItems: "center",
   },
   buttonText: {
     color: "white",
-    fontSize: 16,
+    fontSize: width * 0.04,
     fontWeight: "600",
   },
   resendContainer: {
-    marginTop: 24,
+    marginTop: height * 0.024,
     alignItems: "center",
   },
   resendText: {
     color: "#8A4F7D",
-    fontSize: 14,
+    fontSize: width * 0.035,
   },
   resendLink: {
     color: "#FF5C8A",

@@ -4,10 +4,12 @@ import {
   View,
   TouchableOpacity,
   Animated,
+  Dimensions,
 } from "react-native";
-import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+
+const { width, height } = Dimensions.get("window");
 
 const Sidebar = ({ isVisible, onClose, animation }) => {
   const navigation = useNavigation();
@@ -22,10 +24,6 @@ const Sidebar = ({ isVisible, onClose, animation }) => {
         { transform: [{ translateX: animation }] },
       ]}
     >
-      <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-        <Ionicons name="close" size={24} color="black" />
-      </TouchableOpacity>
-
       <View style={styles.content}>
         <Text style={styles.header}>Rare Fashion</Text>
 
@@ -36,7 +34,7 @@ const Sidebar = ({ isVisible, onClose, animation }) => {
             navigation.navigate("Home");
           }}
         >
-          <Ionicons name="home-outline" size={20} color="#FF69B4" />
+          <Ionicons name="home-outline" size={width * 0.05} color="#FF69B4" />
           <Text style={styles.menuText}>Home</Text>
         </TouchableOpacity>
 
@@ -47,7 +45,7 @@ const Sidebar = ({ isVisible, onClose, animation }) => {
             navigation.navigate("Collection");
           }}
         >
-          <Ionicons name="shirt-outline" size={20} color="#FF69B4" />
+          <Ionicons name="shirt-outline" size={width * 0.05} color="#FF69B4" />
           <Text style={styles.menuText}>Shop</Text>
         </TouchableOpacity>
 
@@ -58,7 +56,7 @@ const Sidebar = ({ isVisible, onClose, animation }) => {
             navigation.navigate("Wishlist");
           }}
         >
-          <Ionicons name="heart-outline" size={20} color="#FF69B4" />
+          <Ionicons name="heart-outline" size={width * 0.05} color="#FF69B4" />
           <Text style={styles.menuText}>Wishlist</Text>
         </TouchableOpacity>
 
@@ -69,7 +67,7 @@ const Sidebar = ({ isVisible, onClose, animation }) => {
             navigation.navigate("Cart");
           }}
         >
-          <Ionicons name="cart-outline" size={20} color="#FF69B4" />
+          <Ionicons name="cart-outline" size={width * 0.05} color="#FF69B4" />
           <Text style={styles.menuText}>My Cart</Text>
         </TouchableOpacity>
 
@@ -80,7 +78,11 @@ const Sidebar = ({ isVisible, onClose, animation }) => {
             navigation.navigate("Orders");
           }}
         >
-          <Ionicons name="receipt-outline" size={20} color="#FF69B4" />
+          <Ionicons
+            name="receipt-outline"
+            size={width * 0.05}
+            color="#FF69B4"
+          />
           <Text style={styles.menuText}>My Orders</Text>
         </TouchableOpacity>
 
@@ -91,7 +93,7 @@ const Sidebar = ({ isVisible, onClose, animation }) => {
             navigation.navigate("Profile");
           }}
         >
-          <Ionicons name="person-outline" size={20} color="#FF69B4" />
+          <Ionicons name="person-outline" size={width * 0.05} color="#FF69B4" />
           <Text style={styles.menuText}>Profile</Text>
         </TouchableOpacity>
       </View>
@@ -104,43 +106,37 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 0,
     left: 0,
-    height: "150%",
-    width: "70%",
+    height: height,
+    width: width * 0.7,
     backgroundColor: "#fbeaea",
-    paddingTop: 60,
-    paddingHorizontal: 20,
+    paddingTop: height * 0.08,
+    paddingHorizontal: width * 0.05,
     zIndex: 2,
     elevation: 5,
     borderRightWidth: 1,
     borderRightColor: "#ddd",
   },
-  closeButton: {
-    position: "absolute",
-    top: 40,
-    right: 15,
-    padding: 10,
-  },
   content: {
     flex: 1,
-    paddingTop: 20,
+    paddingTop: height * 0.02,
   },
   header: {
-    fontSize: 24,
+    fontSize: width * 0.06,
     fontWeight: "bold",
-    marginBottom: 20,
+    marginBottom: height * 0.02,
     fontFamily: "Prata-Regular",
     color: "#FF69B4",
   },
   menuItem: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 15,
+    paddingVertical: height * 0.015,
   },
   menuText: {
-    fontSize: 18,
+    fontSize: width * 0.045,
     fontFamily: "Outfit-Regular",
     color: "#555",
-    marginLeft: 15,
+    marginLeft: width * 0.04,
   },
 });
 

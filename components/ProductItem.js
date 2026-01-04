@@ -7,9 +7,8 @@ import {
   Dimensions,
   Animated,
   Easing,
-  Alert,
 } from "react-native";
-import React, { useRef, useContext, useState, useEffect } from "react";
+import { useRef, useContext, useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
@@ -39,7 +38,6 @@ const ProductItem = ({
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const navigation = useNavigation();
 
-  // Sync with context state
   useEffect(() => {
     if (id) {
       setIsFavorite(isInWishlist(id));
@@ -52,11 +50,9 @@ const ProductItem = ({
       return;
     }
 
-    // Optimistic UI update
     const newFavoriteState = !isFavorite;
     setIsFavorite(newFavoriteState);
 
-    // Animation
     Animated.timing(fadeAnim, {
       toValue: newFavoriteState ? 0.3 : 1,
       duration: 300,
@@ -66,9 +62,7 @@ const ProductItem = ({
       fadeAnim.setValue(1);
     });
 
-    // Toggle wishlist in context
     toggleWishlist(id).catch(() => {
-      // Revert if there's an error
       setIsFavorite(!newFavoriteState);
       showToast("Failed to update wishlist", "error");
     });
@@ -80,7 +74,7 @@ const ProductItem = ({
 
   return (
     <TouchableOpacity
-      style={styles.productContainer}
+      style={[styles.productContainer, { width: productWidth }]}
       onPress={() =>
         navigation.navigate("Product", {
           id,
@@ -107,7 +101,7 @@ const ProductItem = ({
           <Animated.View style={{ opacity: fadeAnim }}>
             <Ionicons
               name={isFavorite ? "heart" : "heart-outline"}
-              size={28}
+              size={width * 0.07}
               color={isFavorite ? "hotpink" : "#fff"}
               style={styles.heartIcon}
             />
@@ -132,9 +126,10 @@ const styles = StyleSheet.create({
   productContainer: {
     backgroundColor: "#fff",
     elevation: 3,
-    width: productWidth,
-    marginTop: 20,
+    marginTop: width * 0.05,
     overflow: "hidden",
+    borderRadius: width * 0.02,
+    marginHorizontal: width * 0.01,
   },
   imageContainer: {
     position: "relative",
@@ -142,36 +137,38 @@ const styles = StyleSheet.create({
   },
   productImage: {
     width: "100%",
-    height: 280,
+    height: width * 0.7,
     resizeMode: "cover",
   },
   productName: {
-    fontSize: 14,
+    fontSize: width * 0.035,
     fontFamily: "Outfit-Regular",
     textAlign: "left",
-    marginTop: 8,
-    paddingHorizontal: 8,
+    marginTop: width * 0.02,
+    paddingHorizontal: width * 0.02,
+    lineHeight: width * 0.045,
+    minHeight: width * 0.09,
   },
   productPrice: {
-    fontSize: 17,
+    fontSize: width * 0.042,
     color: "hotpink",
     fontWeight: "bold",
   },
   bestsellerSticker: {
     position: "absolute",
-    bottom: 10,
-    right: 10,
+    bottom: width * 0.025,
+    right: width * 0.025,
     backgroundColor: "gold",
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 10,
+    paddingVertical: width * 0.01,
+    paddingHorizontal: width * 0.02,
+    borderRadius: width * 0.025,
   },
   bestsellerText: {
-    fontSize: 12,
+    fontSize: width * 0.03,
     fontWeight: "bold",
   },
   nameandprice: {
-    minHeight: 120,
+    minHeight: width * 0.3,
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
@@ -181,20 +178,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 8,
-    paddingVertical: 10,
+    paddingHorizontal: width * 0.02,
+    paddingVertical: width * 0.025,
   },
   wishlistButton: {
     position: "absolute",
-    top: 10,
-    right: 10,
+    top: width * 0.025,
+    right: width * 0.025,
     backgroundColor: "transparent",
-    borderRadius: 20,
-    padding: 5,
+    borderRadius: width * 0.05,
+    padding: width * 0.012,
   },
   heartIcon: {
     textShadowColor: "rgba(0,0,0,0.5)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
+    textShadowOffset: { width: 0, height: width * 0.002 },
+    textShadowRadius: width * 0.005,
   },
 });

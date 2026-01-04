@@ -1,4 +1,3 @@
-import React from "react";
 import {
   StyleSheet,
   Text,
@@ -6,6 +5,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  Dimensions,
 } from "react-native";
 import {
   Ionicons,
@@ -14,14 +14,19 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useNavigation } from "@react-navigation/native";
+
+const { width, height } = Dimensions.get("window");
 
 const Contact = () => {
+  const navigation = useNavigation();
+
   const contactMethods = [
     {
       title: "APPLE MESSAGE",
       description:
         "Monday-Saturday from 9AM to 8PM (EST).\nSunday from 10AM to 7PM(EST).",
-      icon: <Ionicons name="logo-apple" size={28} color="#FF3E6C" />,
+      icon: <Ionicons name="logo-apple" size={width * 0.07} color="#FF3E6C" />,
       actionText: "Message Us",
       onPress: () => Linking.openURL("sms:9725312744"),
     },
@@ -29,14 +34,20 @@ const Contact = () => {
       title: "PHONE",
       description:
         "Monday-Saturday from 9AM to 11PM (EST).\nSunday from 10AM to 9PM(EST).",
-      icon: <MaterialIcons name="phone" size={28} color="#FF3E6C" />,
+      icon: <MaterialIcons name="phone" size={width * 0.07} color="#FF3E6C" />,
       actionText: "Call Us +91-972 531 2744",
       onPress: () => Linking.openURL("tel:+919725312744"),
     },
     {
       title: "EMAIL",
       description: "Your inquiry will receive a response from a Client Advisor",
-      icon: <MaterialCommunityIcons name="email" size={28} color="#FF3E6C" />,
+      icon: (
+        <MaterialCommunityIcons
+          name="email"
+          size={width * 0.07}
+          color="#FF3E6C"
+        />
+      ),
       actionText: "Write Us",
       onPress: () => Linking.openURL("mailto:info@rarefashion.com"),
     },
@@ -44,16 +55,22 @@ const Contact = () => {
       title: "WHATSAPP",
       description:
         "Monday-Saturday from 9AM to 8PM (EST).\nSunday from 10AM to 7PM(EST).",
-      icon: <FontAwesome name="whatsapp" size={28} color="#FF3E6C" />,
+      icon: <FontAwesome name="whatsapp" size={width * 0.07} color="#FF3E6C" />,
       actionText: "WhatsApp Us",
       onPress: () => Linking.openURL("https://wa.me/919725312744"),
     },
   ];
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.safeArea}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
+        <Ionicons name="arrow-back" size={width * 0.06} color="#333" />
+      </TouchableOpacity>
+
       <ScrollView contentContainerStyle={styles.container}>
-        {/* Header */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>HOW TO CONTACT</Text>
           <Text style={styles.headerSubtitle}>RARE FASHION</Text>
@@ -63,7 +80,6 @@ const Contact = () => {
           CHOOSE YOUR PREFERRED METHOD OF CONTACT AND CONNECT WITH US
         </Text>
 
-        {/* Contact Methods */}
         <View style={styles.contactMethods}>
           {contactMethods.map((method, index) => (
             <View key={index} style={styles.contactCard}>
@@ -83,7 +99,6 @@ const Contact = () => {
           ))}
         </View>
 
-        {/* Decorative Elements */}
         <View style={styles.circleAccent} />
         <View style={styles.flowerAccent} />
       </ScrollView>
@@ -92,74 +107,88 @@ const Contact = () => {
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFF9FB",
+  },
+  backButton: {
+    position: "absolute",
+    top: height * 0.04,
+    left: width * 0.04,
+    zIndex: 10,
+    backgroundColor: "rgba(255,255,255,0.7)",
+    borderRadius: width * 0.05,
+    padding: width * 0.02,
+  },
   container: {
     flexGrow: 1,
     backgroundColor: "#FFF9FB",
-    paddingHorizontal: 20,
-    paddingBottom: 40,
+    paddingHorizontal: width * 0.05,
+    paddingBottom: height * 0.04,
+    paddingTop: height * 0.02,
   },
   header: {
-    marginTop: 20,
-    marginBottom: 15,
+    marginTop: height * 0.02,
+    marginBottom: height * 0.015,
     alignItems: "center",
   },
   headerTitle: {
-    fontSize: 28,
+    fontSize: width * 0.07,
     fontWeight: "600",
     color: "#FF3E6C",
     textAlign: "center",
     fontFamily: "PlayfairDisplay_600SemiBold",
-    lineHeight: 32,
+    lineHeight: width * 0.08,
   },
   headerSubtitle: {
-    fontSize: 28,
+    fontSize: width * 0.07,
     fontWeight: "600",
     color: "#FF3E6C",
     textAlign: "center",
     fontFamily: "PlayfairDisplay_600SemiBold",
-    marginTop: -5,
+    marginTop: -height * 0.005,
   },
   subheading: {
-    fontSize: 14,
+    fontSize: width * 0.035,
     color: "#666",
     textAlign: "center",
-    marginBottom: 30,
+    marginBottom: height * 0.03,
     fontFamily: "Lato_400Regular",
-    lineHeight: 20,
-    paddingHorizontal: 20,
+    lineHeight: width * 0.05,
+    paddingHorizontal: width * 0.05,
   },
   contactMethods: {
-    marginBottom: 30,
+    marginBottom: height * 0.03,
   },
   contactCard: {
     backgroundColor: "white",
-    borderRadius: 18,
-    padding: 20,
-    marginBottom: 20,
+    borderRadius: width * 0.045,
+    padding: width * 0.05,
+    marginBottom: height * 0.02,
     shadowColor: "#FF3E6C",
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: height * 0.004 },
     shadowOpacity: 0.1,
-    shadowRadius: 15,
+    shadowRadius: width * 0.04,
     elevation: 5,
   },
   methodTitle: {
-    fontSize: 18,
+    fontSize: width * 0.045,
     fontWeight: "700",
     color: "#333",
-    marginBottom: 8,
+    marginBottom: height * 0.008,
     fontFamily: "Lato_700Bold",
   },
   methodDescription: {
-    fontSize: 13,
+    fontSize: width * 0.032,
     color: "#666",
-    marginBottom: 20,
+    marginBottom: height * 0.02,
     fontFamily: "Lato_400Regular",
-    lineHeight: 18,
+    lineHeight: width * 0.045,
   },
   contactButton: {
     backgroundColor: "#FFF0F5",
-    borderRadius: 12,
-    paddingVertical: 14,
+    borderRadius: width * 0.03,
+    paddingVertical: height * 0.014,
   },
   buttonContent: {
     flexDirection: "row",
@@ -167,31 +196,31 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonText: {
-    fontSize: 16,
+    fontSize: width * 0.04,
     fontWeight: "600",
     color: "#FF3E6C",
-    marginLeft: 10,
+    marginLeft: width * 0.025,
     fontFamily: "Lato_600SemiBold",
   },
   circleAccent: {
     position: "absolute",
-    width: 200,
-    height: 200,
-    borderRadius: 100,
+    width: width * 0.5,
+    height: width * 0.5,
+    borderRadius: width * 0.25,
     backgroundColor: "#FFD6E0",
     opacity: 0.3,
-    right: -50,
+    right: -width * 0.1,
     top: "20%",
     zIndex: -1,
   },
   flowerAccent: {
     position: "absolute",
-    width: 150,
-    height: 150,
-    borderRadius: 75,
+    width: width * 0.4,
+    height: width * 0.4,
+    borderRadius: width * 0.2,
     backgroundColor: "#FFE5EC",
     opacity: 0.2,
-    left: -50,
+    left: -width * 0.1,
     bottom: "10%",
     zIndex: -1,
     transform: [{ rotate: "45deg" }],

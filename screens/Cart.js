@@ -1,18 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   FlatList,
   Image,
-  TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ShopContext } from "../context/ShopContext";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+const { width } = Dimensions.get("window");
 
 const Cart = () => {
   const {
@@ -82,7 +84,7 @@ const Cart = () => {
             <View style={styles.sizeContainer}>
               <MaterialCommunityIcons
                 name="tag-outline"
-                size={14}
+                size={16}
                 color="#E75480"
               />
               <Text style={styles.size}>Size: {item.size}</Text>
@@ -98,34 +100,25 @@ const Cart = () => {
               }}
               style={styles.quantityBtn}
             >
-              <MaterialIcons name="remove" size={18} color="#E75480" />
+              <MaterialIcons name="remove" size={20} color="#E75480" />
             </TouchableOpacity>
-            <TextInput
-              style={styles.input}
-              keyboardType="numeric"
-              value={item.quantity.toString()}
-              editable={false}
-              onChangeText={(value) => {
-                const qty = Number(value);
-                if (qty > 0) {
-                  updateQuantity(item._id, item.size, qty);
-                }
-              }}
-            />
+            <View style={styles.inputContainer}>
+              <Text style={styles.quantityText}>{item.quantity}</Text>
+            </View>
             <TouchableOpacity
               onPress={() => {
                 updateQuantity(item._id, item.size, item.quantity + 1);
               }}
               style={styles.quantityBtn}
             >
-              <MaterialIcons name="add" size={18} color="#E75480" />
+              <MaterialIcons name="add" size={20} color="#E75480" />
             </TouchableOpacity>
           </View>
           <TouchableOpacity
             onPress={() => updateQuantity(item._id, item.size, 0)}
             style={styles.removeBtn}
           >
-            <MaterialIcons name="delete-outline" size={22} color="#E75480" />
+            <MaterialIcons name="delete-outline" size={24} color="#E75480" />
           </TouchableOpacity>
         </View>
       </View>
@@ -251,7 +244,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFF9FB",
-    paddingHorizontal: 16,
+    paddingHorizontal: width > 400 ? 20 : 16,
   },
   loader: {
     flex: 1,
@@ -265,7 +258,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   title: {
-    fontSize: 26,
+    fontSize: width > 400 ? 26 : 22,
     fontWeight: "700",
     color: "#E75480",
     fontFamily: "Helvetica",
@@ -273,8 +266,8 @@ const styles = StyleSheet.create({
   cartCount: {
     backgroundColor: "#E75480",
     borderRadius: 12,
-    width: 24,
-    height: 24,
+    width: width > 400 ? 24 : 22,
+    height: width > 400 ? 24 : 22,
     justifyContent: "center",
     alignItems: "center",
     marginLeft: 12,
@@ -282,7 +275,7 @@ const styles = StyleSheet.create({
   cartCountText: {
     color: "white",
     fontWeight: "600",
-    fontSize: 14,
+    fontSize: width > 400 ? 14 : 12,
   },
   emptyContainer: {
     flex: 1,
@@ -291,13 +284,13 @@ const styles = StyleSheet.create({
     paddingBottom: 100,
   },
   emptyText: {
-    fontSize: 22,
+    fontSize: width > 400 ? 22 : 20,
     color: "#E75480",
     fontWeight: "600",
     marginTop: 20,
   },
   emptySubtext: {
-    fontSize: 15,
+    fontSize: width > 400 ? 15 : 14,
     color: "#888",
     marginTop: 8,
     textAlign: "center",
@@ -318,7 +311,7 @@ const styles = StyleSheet.create({
   shopButtonText: {
     color: "white",
     fontWeight: "600",
-    fontSize: 16,
+    fontSize: width > 400 ? 16 : 14,
   },
   listContent: {
     paddingBottom: 20,
@@ -344,8 +337,8 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   image: {
-    width: 80,
-    height: 130,
+    width: width > 400 ? 80 : 70,
+    height: width > 400 ? 130 : 115,
     borderRadius: 10,
     backgroundColor: "#FFF0F5",
   },
@@ -355,14 +348,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   name: {
-    fontSize: 16,
+    fontSize: width > 400 ? 16 : 15,
     fontWeight: "600",
     color: "#333",
     maxWidth: "90%",
   },
   price: {
     color: "#E75480",
-    fontSize: 16,
+    fontSize: width > 400 ? 16 : 15,
     fontWeight: "700",
   },
   sizeContainer: {
@@ -376,7 +369,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   size: {
-    fontSize: 13,
+    fontSize: width > 400 ? 13 : 12,
     color: "#E75480",
     fontWeight: "500",
     marginLeft: 5,
@@ -386,6 +379,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     display: "flex",
     flexDirection: "row",
+    width: "100%",
   },
   quantityContainer: {
     flexDirection: "row",
@@ -393,25 +387,29 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   quantityBtn: {
-    width: 30,
-    height: 30,
+    width: width > 400 ? 30 : 28,
+    height: width > 400 ? 30 : 28,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#FFF0F5",
     borderRadius: 8,
   },
-  input: {
-    width: 42,
-    height: 30,
+  inputContainer: {
+    width: width > 400 ? 42 : 38,
+    height: width > 400 ? 30 : 28,
     borderWidth: 1,
     borderColor: "#FFD6E7",
     borderRadius: 8,
     marginHorizontal: 4,
-    textAlign: "center",
     backgroundColor: "#FFF",
-    fontSize: 15,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  quantityText: {
+    fontSize: width > 400 ? 15 : 14,
     fontWeight: "500",
     color: "#E75480",
+    textAlign: "center",
   },
   removeBtn: {
     padding: 4,
@@ -419,7 +417,7 @@ const styles = StyleSheet.create({
   summary: {
     backgroundColor: "#FFF",
     borderRadius: 20,
-    padding: 22,
+    padding: width > 400 ? 22 : 18,
     shadowColor: "#E75480",
     shadowOffset: { width: 0, height: -5 },
     shadowOpacity: 0.1,
@@ -429,7 +427,7 @@ const styles = StyleSheet.create({
     borderColor: "#FFF0F5",
   },
   summaryTitle: {
-    fontSize: 20,
+    fontSize: width > 400 ? 20 : 18,
     fontWeight: "700",
     marginBottom: 18,
     color: "#E75480",
@@ -440,11 +438,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   label: {
-    fontSize: 15,
+    fontSize: width > 400 ? 15 : 14,
     color: "#888",
   },
   value: {
-    fontSize: 15,
+    fontSize: width > 400 ? 15 : 14,
     color: "#555",
     fontWeight: "500",
   },
@@ -452,12 +450,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   totalLabel: {
-    fontSize: 17,
+    fontSize: width > 400 ? 17 : 16,
     fontWeight: "700",
     color: "#E75480",
   },
   totalValue: {
-    fontSize: 17,
+    fontSize: width > 400 ? 17 : 16,
     fontWeight: "700",
     color: "#E75480",
   },
@@ -483,7 +481,7 @@ const styles = StyleSheet.create({
   checkoutText: {
     color: "#FFFFFF",
     fontWeight: "600",
-    fontSize: 17,
+    fontSize: width > 400 ? 17 : 16,
     marginRight: 10,
   },
 });

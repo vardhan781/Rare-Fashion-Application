@@ -1,20 +1,38 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { assets } from "../assets/assets";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+
+const { width, height } = Dimensions.get("window");
 
 const About = () => {
+  const navigation = useNavigation();
+
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.safeArea}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
+        <Ionicons name="arrow-back" size={width * 0.06} color="#333" />
+      </TouchableOpacity>
+
       <ScrollView contentContainerStyle={styles.container}>
-        {/* Hero Image */}
         <Image
           source={assets.about_img}
           style={styles.heroImage}
           resizeMode="cover"
         />
 
-        {/* Content Section */}
         <View style={styles.content}>
           <View style={styles.header}>
             <Text style={styles.title}>About Us</Text>
@@ -38,52 +56,62 @@ const About = () => {
             </Text>
           </View>
         </View>
-
-        {/* Decorative Elements */}
-        <View style={styles.pinkCircle} />
-        <View style={styles.petalAccent} />
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#FFF9FB",
+  },
+  backButton: {
+    position: "absolute",
+    top: height * 0.04,
+    left: width * 0.04,
+    zIndex: 10,
+    backgroundColor: "rgba(255,255,255,0.7)",
+    borderRadius: width * 0.05,
+    padding: width * 0.02,
+  },
   container: {
     flexGrow: 1,
     backgroundColor: "#FFF9FB",
+    paddingTop: height * 0.02,
   },
   heroImage: {
     width: "100%",
     height: 500,
   },
   content: {
-    paddingHorizontal: 25,
-    paddingTop: 30,
-    paddingBottom: 50,
+    paddingHorizontal: width * 0.06,
+    paddingTop: height * 0.03,
+    paddingBottom: height * 0.05,
   },
   header: {
     alignItems: "center",
-    marginBottom: 25,
+    marginBottom: height * 0.025,
   },
   title: {
-    fontSize: 32,
+    fontSize: width * 0.08,
     fontWeight: "600",
     color: "#FF3E6C",
     fontFamily: "PlayfairDisplay_600SemiBold",
-    marginBottom: 10,
+    marginBottom: height * 0.01,
   },
   underline: {
-    width: 80,
-    height: 3,
+    width: width * 0.2,
+    height: height * 0.003,
     backgroundColor: "#FF3E6C",
-    borderRadius: 3,
+    borderRadius: width * 0.003,
   },
   paragraphs: {
-    gap: 15,
+    gap: height * 0.015,
   },
   text: {
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: width * 0.04,
+    lineHeight: width * 0.06,
     color: "#555",
     fontFamily: "Lato_400Regular",
     textAlign: "center",
@@ -91,29 +119,6 @@ const styles = StyleSheet.create({
   bold: {
     fontFamily: "Lato_700Bold",
     color: "#FF3E6C",
-  },
-  pinkCircle: {
-    position: "absolute",
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    backgroundColor: "#FFD6E0",
-    opacity: 0.3,
-    right: -50,
-    top: 100,
-    zIndex: -1,
-  },
-  petalAccent: {
-    position: "absolute",
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    backgroundColor: "#FFE5EC",
-    opacity: 0.2,
-    left: -50,
-    bottom: 50,
-    zIndex: -1,
-    transform: [{ rotate: "45deg" }],
   },
 });
 

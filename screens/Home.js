@@ -10,7 +10,7 @@ import {
   Pressable,
   ActivityIndicator,
 } from "react-native";
-import React, { useState, useRef, useContext, useEffect } from "react";
+import { useState, useRef, useContext, useEffect } from "react";
 import { useFonts } from "expo-font";
 import { assets } from "../assets/assets";
 import Sidebar from "../components/Sidebar";
@@ -20,7 +20,7 @@ import { ShopContext } from "../context/ShopContext";
 import CustomToast from "../components/CustomToast";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const { height } = Dimensions.get("window");
+const { height, width } = Dimensions.get("window");
 
 function Home() {
   const navigation = useNavigation();
@@ -125,7 +125,6 @@ function Home() {
         type="success"
         message="You have been logged out"
       />
-      {/* Logout Confirmation Prompt */}
       {showLogoutPrompt && (
         <View style={styles.logoutPrompt}>
           <Text style={styles.logoutText}>
@@ -151,6 +150,7 @@ function Home() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         scrollEnabled={!isSidebarVisible}
+        contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.header1}>
           <Image source={assets.header_1} style={styles.header1_img} />
@@ -206,6 +206,8 @@ function Home() {
             <Text style={styles.explore_text}>Explore More!</Text>
           </TouchableOpacity>
         </View>
+
+        <View style={styles.bottomPadding} />
       </ScrollView>
 
       <Sidebar
@@ -242,28 +244,34 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   navbar_img: {
-    width: 34,
-    height: 34,
+    width: width * 0.09,
+    height: width * 0.09,
+    maxWidth: 34,
+    maxHeight: 34,
   },
   navbar_header: {
-    fontSize: 26,
+    fontSize: width > 400 ? 26 : 22,
     fontWeight: "800",
     fontFamily: "Prata-Regular",
     color: "#FF69B4",
+  },
+  scrollContent: {
+    flexGrow: 1,
   },
   header1: {
     marginTop: 16,
   },
   header1_img: {
     width: "100%",
-    height: 240,
+    height: height * 0.28,
+    maxHeight: 240,
     position: "relative",
   },
   headertext1: {
     position: "absolute",
     left: 8,
     top: 10,
-    fontSize: 19,
+    fontSize: width > 400 ? 19 : 16,
     fontFamily: "Outfit-Regular",
     color: "white",
   },
@@ -271,13 +279,13 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 10,
     top: 30,
-    fontSize: 19,
+    fontSize: width > 400 ? 19 : 16,
     fontFamily: "Outfit-Regular",
     color: "white",
   },
   heading_bar: {
     paddingVertical: 45,
-    fontSize: 28,
+    fontSize: width > 400 ? 28 : 24,
     textAlign: "center",
     color: "#FF69B4",
     fontFamily: "Prata-Regular",
@@ -285,7 +293,8 @@ const styles = StyleSheet.create({
   header2_img: {
     position: "relative",
     width: "100%",
-    height: 250,
+    height: height * 0.29,
+    maxHeight: 250,
   },
   button_container: {
     display: "flex",
@@ -301,17 +310,20 @@ const styles = StyleSheet.create({
     borderRadius: 34,
   },
   button_arrow: {
-    width: 28,
-    height: 28,
+    width: width * 0.07,
+    height: width * 0.07,
+    maxWidth: 28,
+    maxHeight: 28,
   },
   shop_button: {
     fontFamily: "Prata-Regular",
     color: "#F157A4",
-    fontSize: 18,
+    fontSize: width > 400 ? 18 : 16,
   },
   product_container: {
     width: "100%",
-    height: 320,
+    height: height * 0.37,
+    maxHeight: 320,
     borderWidth: 2,
     borderColor: "#F0A4CA",
     display: "flex",
@@ -319,6 +331,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 20,
     gap: 20,
+    marginBottom: 20,
   },
   product_display: {
     display: "flex",
@@ -328,27 +341,34 @@ const styles = StyleSheet.create({
   },
   ind_product: {
     display: "flex",
-    width: 100,
+    width: width * 0.25,
+    maxWidth: 100,
     flexDirection: "column",
     gap: 8,
   },
   product_img: {
-    width: 100,
-    height: 150,
+    width: "100%",
+    height: height * 0.18,
+    maxHeight: 150,
+    aspectRatio: 2 / 3,
   },
   right_arrow: {
-    width: 64,
-    height: 64,
+    width: width * 0.15,
+    height: width * 0.15,
+    maxWidth: 64,
+    maxHeight: 64,
   },
   quotes: {
-    width: 100,
+    width: "100%",
     textAlign: "center",
     color: "gray",
     fontFamily: "Outfit-Regular",
+    fontSize: width > 400 ? 12 : 10,
   },
   header3_img: {
     width: "100%",
-    height: 212,
+    height: height * 0.25,
+    maxHeight: 212,
     position: "relative",
   },
   explore_button: {
@@ -364,7 +384,7 @@ const styles = StyleSheet.create({
   },
   explore_text: {
     fontFamily: "Outfit-Regular",
-    fontSize: 12,
+    fontSize: width > 400 ? 12 : 10,
   },
   logoutPrompt: {
     position: "absolute",
@@ -381,7 +401,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   logoutText: {
-    fontSize: 16,
+    fontSize: width > 400 ? 16 : 14,
     textAlign: "center",
     marginBottom: 20,
     fontFamily: "Outfit-Regular",
@@ -403,12 +423,16 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontFamily: "Outfit-Regular",
+    fontSize: width > 400 ? 14 : 12,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fbeaea",
+  },
+  bottomPadding: {
+    height: 10,
   },
 });
 
