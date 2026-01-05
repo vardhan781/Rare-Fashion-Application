@@ -63,45 +63,50 @@ const Contact = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
-        <Ionicons name="arrow-back" size={width * 0.06} color="#333" />
-      </TouchableOpacity>
-
-      <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>HOW TO CONTACT</Text>
-          <Text style={styles.headerSubtitle}>RARE FASHION</Text>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={width * 0.06} color="#FF3E6C" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>Contact Us</Text>
+          <View style={{ width: width * 0.06 }} />
         </View>
 
-        <Text style={styles.subheading}>
-          CHOOSE YOUR PREFERRED METHOD OF CONTACT AND CONNECT WITH US
-        </Text>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.contentTitle}>HOW TO CONTACT</Text>
+            <Text style={styles.contentSubtitle}>RARE FASHION</Text>
+          </View>
 
-        <View style={styles.contactMethods}>
-          {contactMethods.map((method, index) => (
-            <View key={index} style={styles.contactCard}>
-              <Text style={styles.methodTitle}>{method.title}</Text>
-              <Text style={styles.methodDescription}>{method.description}</Text>
+          <Text style={styles.subheading}>
+            CHOOSE YOUR PREFERRED METHOD OF CONTACT AND CONNECT WITH US
+          </Text>
 
-              <TouchableOpacity
-                style={styles.contactButton}
-                onPress={method.onPress}
-              >
-                <View style={styles.buttonContent}>
-                  {method.icon}
-                  <Text style={styles.buttonText}>{method.actionText}</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          ))}
-        </View>
+          <View style={styles.contactMethods}>
+            {contactMethods.map((method, index) => (
+              <View key={index} style={styles.contactCard}>
+                <Text style={styles.methodTitle}>{method.title}</Text>
+                <Text style={styles.methodDescription}>
+                  {method.description}
+                </Text>
 
-        <View style={styles.circleAccent} />
-        <View style={styles.flowerAccent} />
-      </ScrollView>
+                <TouchableOpacity
+                  style={styles.contactButton}
+                  onPress={method.onPress}
+                >
+                  <View style={styles.buttonContent}>
+                    {method.icon}
+                    <Text style={styles.buttonText}>{method.actionText}</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+
+          <View style={styles.circleAccent} />
+          <View style={styles.flowerAccent} />
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -111,28 +116,36 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFF9FB",
   },
-  backButton: {
-    position: "absolute",
-    top: height * 0.04,
-    left: width * 0.04,
-    zIndex: 10,
-    backgroundColor: "rgba(255,255,255,0.7)",
-    borderRadius: width * 0.05,
-    padding: width * 0.02,
-  },
   container: {
-    flexGrow: 1,
+    flex: 1,
     backgroundColor: "#FFF9FB",
-    paddingHorizontal: width * 0.05,
-    paddingBottom: height * 0.04,
-    paddingTop: height * 0.02,
   },
   header: {
-    marginTop: height * 0.02,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: width * 0.05,
+    paddingTop: height * 0.02,
+    backgroundColor: "white",
+    borderBottomWidth: 1,
+    borderBottomColor: "#FFD6E0",
+  },
+  headerTitle: {
+    fontSize: width * 0.06,
+    fontWeight: "600",
+    color: "#FF3E6C",
+    fontFamily: "PlayfairDisplay_600SemiBold",
+  },
+  scrollContainer: {
+    paddingHorizontal: width * 0.05,
+    paddingVertical: height * 0.03,
+  },
+  titleContainer: {
+    marginTop: height * 0.01,
     marginBottom: height * 0.015,
     alignItems: "center",
   },
-  headerTitle: {
+  contentTitle: {
     fontSize: width * 0.07,
     fontWeight: "600",
     color: "#FF3E6C",
@@ -140,7 +153,7 @@ const styles = StyleSheet.create({
     fontFamily: "PlayfairDisplay_600SemiBold",
     lineHeight: width * 0.08,
   },
-  headerSubtitle: {
+  contentSubtitle: {
     fontSize: width * 0.07,
     fontWeight: "600",
     color: "#FF3E6C",

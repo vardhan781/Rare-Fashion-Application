@@ -19,7 +19,10 @@ import { ShopContext } from "../context/ShopContext";
 import { useFonts } from "expo-font";
 import Fuse from "fuse.js";
 import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import * as Progress from "react-native-progress";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -37,6 +40,7 @@ const Collection = () => {
   const windowWidth = Dimensions.get("window").width;
   const searchInputRef = useRef(null);
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   const fuseOptions = {
     keys: ["name", "category", "description", "tag"],
@@ -245,7 +249,9 @@ const Collection = () => {
         )}
       </View>
 
-      <View style={styles.filterButtonContainer}>
+      <View style={[styles.filterButtonContainer, { 
+        bottom: insets.bottom + 20
+      }]}>
         <TouchableOpacity
           style={styles.filterButton}
           onPress={toggleFilterModal}
@@ -347,6 +353,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 10,
+    paddingVertical:10,
     alignItems: "center",
     gap: 5,
   },
@@ -384,8 +391,8 @@ const styles = StyleSheet.create({
   collectionModule: {
     flex: 1,
     paddingHorizontal: 10,
-    marginTop: 20,
-    marginBottom:50
+    marginTop: 10,
+    marginBottom: 50,
   },
   flatListContent: {
     paddingBottom: 20,
@@ -398,7 +405,6 @@ const styles = StyleSheet.create({
   },
   filterButtonContainer: {
     position: "absolute",
-    bottom: 20,
     left: 20,
     right: 20,
     zIndex: 10,

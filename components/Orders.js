@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     paddingHorizontal: width * 0.04,
-    paddingBottom: height * 0.03,
+    paddingVertical: height * 0.03,
   },
   emptyContainer: {
     alignItems: "center",

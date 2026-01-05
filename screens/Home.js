@@ -236,7 +236,7 @@ const styles = StyleSheet.create({
   },
   navbar: {
     paddingHorizontal: 20,
-    paddingVertical: 3,
+    paddingVertical: 12,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",

@@ -63,7 +63,7 @@ const Privacy = ({ navigation }) => {
           </Text>
 
           <Text style={styles.updatedText}>
-            This policy was last updated on June 2023. We may update this policy
+            This policy was last updated on December 2025. We may update this policy
             periodically.
           </Text>
         </ScrollView>

@@ -21,7 +21,6 @@ const Wishlist = ({ navigation }) => {
     wishlistItems = [],
     toggleWishlist,
     isInWishlist,
-    addToCart,
     currency = "$",
     token,
   } = useContext(ShopContext);
@@ -309,7 +308,7 @@ const styles = StyleSheet.create({
     fontSize: width * 0.035,
   },
   listContent: {
-    paddingBottom: height * 0.02,
+    paddingVertical: height * 0.02,
   },
 });
 

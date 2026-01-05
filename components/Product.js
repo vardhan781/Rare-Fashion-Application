@@ -9,12 +9,12 @@ import {
   Animated,
   Easing,
 } from "react-native";
-import React, { useState, useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import CustomToast from "./CustomToast";
 import { ShopContext } from "../context/ShopContext";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView,useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("window");
 
@@ -26,6 +26,7 @@ const Product = () => {
   const [selectedSize, setSelectedSize] = useState("");
   const [isWishlisted, setIsWishlisted] = useState(false);
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets()
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   const [toastConfig, setToastConfig] = useState({
@@ -186,7 +187,9 @@ const Product = () => {
         </View>
       </ScrollView>
 
-      <View style={styles.footer}>
+      <View style={[styles.footer, { 
+        paddingBottom: insets.bottom + 10
+      }]}>
         <TouchableOpacity
           style={[
             styles.addToCartButton,
