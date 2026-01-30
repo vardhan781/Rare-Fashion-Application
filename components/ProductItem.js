@@ -35,6 +35,8 @@ const ProductItem = ({
     useContext(ShopContext);
 
   const [isFavorite, setIsFavorite] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const navigation = useNavigation();
 
@@ -68,6 +70,21 @@ const ProductItem = ({
     });
   };
 
+  const handleImageError = () => {
+    setImageError(true);
+    setImageLoading(false);
+  };
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
+    setImageError(false);
+  };
+
+  const retryImageLoad = () => {
+    setImageError(false);
+    setImageLoading(true);
+  };
+
   if (!fontsLoaded || !id) {
     return null;
   }
@@ -87,7 +104,46 @@ const ProductItem = ({
       }
     >
       <View style={styles.imageContainer}>
-        <Image source={{ uri: image }} style={styles.productImage} />
+        {!imageError ? (
+          <>
+            <Image
+              source={{ uri: image }}
+              style={styles.productImage}
+              onError={handleImageError}
+              onLoad={handleImageLoad}
+            />
+            {imageLoading && (
+              <View style={styles.imageLoadingOverlay}>
+                <Ionicons name="sparkles" size={24} color="hotpink" />
+              </View>
+            )}
+          </>
+        ) : (
+          <TouchableOpacity
+            style={[styles.productImage, styles.fallbackContainer]}
+            onPress={retryImageLoad}
+            activeOpacity={0.9}
+          >
+            <View style={styles.fallbackContent}>
+              <Text style={styles.fallbackBrand}>RARE</Text>
+              <Text style={styles.fallbackBrand}>FASHION</Text>
+
+              <View style={styles.sparkleRow}>
+                <Ionicons
+                  name="sparkles"
+                  size={14}
+                  color="rgba(255,255,255,0.8)"
+                />
+                <Text style={styles.retryText}>Tap to retry</Text>
+                <Ionicons
+                  name="sparkles"
+                  size={14}
+                  color="rgba(255,255,255,0.8)"
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+        )}
         {bestseller && (
           <View style={styles.bestsellerSticker}>
             <Text style={styles.bestsellerText}>Bestseller</Text>
@@ -139,6 +195,44 @@ const styles = StyleSheet.create({
     width: "100%",
     height: width * 0.7,
     resizeMode: "cover",
+    backgroundColor: "#fbeaea",
+  },
+  fallbackContainer: {
+    backgroundColor: "#FF69B4",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  fallbackContent: {
+    alignItems: "center",
+    padding: 20,
+  },
+  fallbackBrand: {
+    fontFamily: "Prata-Regular",
+    fontSize: 22,
+    color: "white",
+    letterSpacing: 2,
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
+  },
+  sparkleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 12,
+    gap: 6,
+  },
+  retryText: {
+    fontFamily: "Outfit-Regular",
+    fontSize: 11,
+    color: "rgba(255,255,255,0.9)",
+    letterSpacing: 0.5,
+    marginHorizontal: 5,
+  },
+  imageLoadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(251, 234, 234, 0.7)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   productName: {
     fontSize: width * 0.035,
