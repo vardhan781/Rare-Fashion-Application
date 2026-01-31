@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     fontFamily: "Outfit-Regular",
     color: "white",
     textAlign: "right",
-    alignSelf: "flex-start",
+    alignSelf: "flex-end",
   },
   heading_bar: {
     paddingVertical: responsiveHeight(4),

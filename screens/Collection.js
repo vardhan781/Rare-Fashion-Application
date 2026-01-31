@@ -12,6 +12,7 @@ import {
   Dimensions,
   Animated,
   Pressable,
+  Platform,
 } from "react-native";
 import { assets } from "../assets/assets";
 import ProductItem from "../components/ProductItem";
@@ -37,7 +38,6 @@ const Collection = () => {
   const [isLoading, setIsLoading] = useState(true);
   const slideAnim = useRef(new Animated.Value(0)).current;
   const windowHeight = Dimensions.get("window").height;
-  const windowWidth = Dimensions.get("window").width;
   const searchInputRef = useRef(null);
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
@@ -267,7 +267,11 @@ const Collection = () => {
           <Animated.View
             style={[
               styles.filterModalContainer,
-              { transform: [{ translateY: filterModalTranslateY }] },
+              {
+                transform: [{ translateY: filterModalTranslateY }],
+                paddingBottom:
+                  Platform.OS === "android" ? insets.bottom + 40 : 0,
+              },
             ]}
           >
             <View style={styles.filterHeader}>
