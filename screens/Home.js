@@ -23,6 +23,9 @@ import { Ionicons } from "@expo/vector-icons";
 
 const { height, width } = Dimensions.get("window");
 
+const responsiveHeight = (percentage) => (percentage / 100) * height;
+const responsiveWidth = (percentage) => (percentage / 100) * width;
+
 function Home() {
   const navigation = useNavigation();
 
@@ -106,13 +109,17 @@ function Home() {
 
       <View style={styles.navbar}>
         <TouchableOpacity activeOpacity={0.7} onPress={openSidebar}>
-          <Ionicons name="menu-outline" size={width * 0.09} color="#FF69B4" />
+          <Ionicons
+            name="menu-outline"
+            size={responsiveWidth(9)}
+            color="#FF69B4"
+          />
         </TouchableOpacity>
         <Text style={styles.navbar_header}>HOME</Text>
         <TouchableOpacity activeOpacity={0.7} onPress={handleLoginPress}>
           <Ionicons
             name={token ? "log-out-outline" : "log-in-outline"}
-            size={width * 0.09}
+            size={responsiveWidth(9)}
             color="#FF69B4"
           />
         </TouchableOpacity>
@@ -150,17 +157,27 @@ function Home() {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.header1}>
-          <Image source={assets.header_1} style={styles.header1_img} />
-          <Text style={styles.headertext1}>
-            Explore {"\n"} The {"\n"} Latest
-          </Text>
-          <Text style={styles.headertext2}>Summer Is Here</Text>
+          <Image
+            source={assets.header_1}
+            style={styles.header1_img}
+            resizeMode="cover"
+          />
+          <View style={styles.headerTextContainer}>
+            <Text style={styles.headertext1}>
+              Explore {"\n"} The {"\n"} Latest
+            </Text>
+            <Text style={styles.headertext2}>Summer Is Here</Text>
+          </View>
         </View>
 
         <Text style={styles.heading_bar}>Summer Collection</Text>
 
-        <View>
-          <Image source={assets.header_2} style={styles.header2_img} />
+        <View style={styles.header2Container}>
+          <Image
+            source={assets.header_2}
+            style={styles.header2_img}
+            resizeMode="cover"
+          />
           <TouchableOpacity
             onPress={() => navigation.navigate("Collection")}
             style={styles.button_container}
@@ -168,7 +185,7 @@ function Home() {
             <Text style={styles.shop_button}>shop now</Text>
             <Ionicons
               name="arrow-forward"
-              size={width * 0.07}
+              size={responsiveWidth(7)}
               color="#F157A4"
             />
           </TouchableOpacity>
@@ -179,22 +196,37 @@ function Home() {
         <View style={styles.product_container}>
           <View style={styles.product_display}>
             <TouchableOpacity style={styles.ind_product}>
-              <Image source={assets.header_dress} style={styles.product_img} />
+              <Image
+                source={assets.header_dress}
+                style={styles.product_img}
+                resizeMode="cover"
+              />
               <Text style={styles.quotes}>Dress up, stand out!</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.ind_product}>
-              <Image source={assets.header_denim} style={styles.product_img} />
+              <Image
+                source={assets.header_denim}
+                style={styles.product_img}
+                resizeMode="cover"
+              />
               <Text style={styles.quotes}>Denim that defines you!</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.ind_product}>
-              <Image source={assets.header_formal} style={styles.product_img} />
+              <Image
+                source={assets.header_formal}
+                style={styles.product_img}
+                resizeMode="cover"
+              />
               <Text style={styles.quotes}>Own it in formal!</Text>
             </TouchableOpacity>
           </View>
-          <Pressable onPress={() => navigation.navigate("Collection")}>
+          <Pressable
+            style={styles.rightArrowContainer}
+            onPress={() => navigation.navigate("Collection")}
+          >
             <Ionicons
               name="chevron-forward-circle"
-              size={width * 0.15}
+              size={responsiveWidth(15)}
               color="#FF69B4"
             />
           </Pressable>
@@ -202,8 +234,12 @@ function Home() {
 
         <Text style={styles.heading_bar}>Now Or Never</Text>
 
-        <View>
-          <Image style={styles.header3_img} source={assets.header_3} />
+        <View style={styles.header3Container}>
+          <Image
+            style={styles.header3_img}
+            source={assets.header_3}
+            resizeMode="cover"
+          />
           <TouchableOpacity
             onPress={() => navigation.navigate("Collection")}
             style={styles.explore_button}
@@ -240,16 +276,15 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   navbar: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    display: "flex",
+    paddingHorizontal: responsiveWidth(5),
+    paddingVertical: responsiveHeight(1.5),
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     zIndex: 2,
   },
   navbar_header: {
-    fontSize: width > 400 ? 26 : 22,
+    fontSize: width < 380 ? 22 : width < 420 ? 24 : 26,
     fontWeight: "800",
     fontFamily: "Prata-Regular",
     color: "#FF69B4",
@@ -258,91 +293,108 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   header1: {
-    marginTop: 16,
+    marginTop: responsiveHeight(2),
+    position: "relative",
   },
   header1_img: {
     width: "100%",
-    height: height * 0.28,
-    maxHeight: 240,
-    position: "relative",
+    height: responsiveHeight(28),
+    minHeight: 200,
+    maxHeight: 280,
+  },
+  headerTextContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "space-between",
+    padding: responsiveWidth(6),
   },
   headertext1: {
-    position: "absolute",
-    left: 8,
-    top: 10,
-    fontSize: width > 400 ? 19 : 16,
+    fontSize: width < 380 ? 14 : width < 420 ? 16 : 18,
     fontFamily: "Outfit-Regular",
     color: "white",
+    lineHeight: width < 380 ? 18 : width < 420 ? 22 : 24,
   },
   headertext2: {
-    position: "absolute",
-    right: 10,
-    top: 30,
-    fontSize: width > 400 ? 19 : 16,
+    fontSize: width < 380 ? 14 : width < 420 ? 16 : 18,
     fontFamily: "Outfit-Regular",
     color: "white",
+    textAlign: "right",
+    alignSelf: "flex-start",
   },
   heading_bar: {
-    paddingVertical: 45,
-    fontSize: width > 400 ? 28 : 24,
+    paddingVertical: responsiveHeight(4),
+    fontSize: width < 380 ? 20 : width < 420 ? 22 : 24,
     textAlign: "center",
     color: "#FF69B4",
     fontFamily: "Prata-Regular",
+    marginTop: responsiveHeight(1),
+  },
+  header2Container: {
+    position: "relative",
+    marginHorizontal: responsiveWidth(2),
   },
   header2_img: {
-    position: "relative",
     width: "100%",
-    height: height * 0.29,
-    maxHeight: 250,
+    height: responsiveHeight(28),
+    minHeight: 180,
+    maxHeight: 260,
+    borderRadius: responsiveWidth(2),
   },
   button_container: {
-    display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 3,
+    paddingHorizontal: responsiveWidth(5),
+    paddingVertical: responsiveHeight(1),
     position: "absolute",
-    right: 5,
-    bottom: 10,
-    gap: 8,
-    backgroundColor: "#ffffff52",
-    borderRadius: 34,
+    right: responsiveWidth(2),
+    bottom: responsiveHeight(2),
+    gap: responsiveWidth(2),
+    backgroundColor: "rgba(255,255,255,0.8)",
+    borderRadius: 30,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.3)",
   },
   shop_button: {
     fontFamily: "Prata-Regular",
     color: "#F157A4",
-    fontSize: width > 400 ? 18 : 16,
+    fontSize: width < 380 ? 14 : width < 420 ? 16 : 18,
   },
   product_container: {
-    width: "100%",
-    height: height * 0.37,
-    maxHeight: 320,
+    width: "92%",
+    alignSelf: "center",
+    minHeight: responsiveHeight(35),
     borderWidth: 2,
     borderColor: "#F0A4CA",
-    display: "flex",
+    borderRadius: responsiveWidth(4),
     flexDirection: "column",
     alignItems: "center",
-    padding: 20,
-    gap: 20,
-    marginBottom: 20,
+    paddingVertical: responsiveHeight(2),
+    paddingHorizontal: responsiveWidth(3),
+    marginBottom: responsiveHeight(2),
+    marginHorizontal: responsiveWidth(4),
   },
   product_display: {
-    display: "flex",
     flexDirection: "row",
     width: "100%",
     justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: responsiveHeight(1),
   },
   ind_product: {
-    display: "flex",
-    width: width * 0.25,
-    maxWidth: 100,
     flexDirection: "column",
-    gap: 8,
+    alignItems: "center",
+    width: responsiveWidth(26),
+    maxWidth: 120,
   },
   product_img: {
     width: "100%",
-    height: height * 0.18,
-    maxHeight: 150,
+    height: responsiveHeight(18),
+    minHeight: 120,
+    maxHeight: 160,
+    borderRadius: responsiveWidth(2),
     aspectRatio: 2 / 3,
   },
   quotes: {
@@ -350,28 +402,40 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "gray",
     fontFamily: "Outfit-Regular",
-    fontSize: width > 400 ? 12 : 10,
+    fontSize: width < 380 ? 9 : width < 420 ? 10 : 11,
+    marginTop: responsiveHeight(0.5),
+    paddingHorizontal: responsiveWidth(1),
+  },
+  rightArrowContainer: {
+    marginTop: responsiveHeight(1),
+  },
+  header3Container: {
+    position: "relative",
+    marginHorizontal: responsiveWidth(2),
+    marginBottom: responsiveHeight(4),
   },
   header3_img: {
     width: "100%",
-    height: height * 0.25,
-    maxHeight: 212,
-    position: "relative",
+    height: responsiveHeight(24),
+    minHeight: 150,
+    maxHeight: 220,
+    borderRadius: responsiveWidth(2),
   },
   explore_button: {
-    paddingHorizontal: 8,
-    paddingVertical: 5,
+    paddingHorizontal: responsiveWidth(4),
+    paddingVertical: responsiveHeight(1),
     borderRadius: 30,
     backgroundColor: "#fbeaea",
     position: "absolute",
-    top: 30,
-    left: 20,
+    top: responsiveHeight(3),
+    left: responsiveWidth(4),
     borderWidth: 1,
     borderColor: "hotpink",
   },
   explore_text: {
     fontFamily: "Outfit-Regular",
-    fontSize: width > 400 ? 12 : 10,
+    fontSize: width < 380 ? 10 : width < 420 ? 11 : 12,
+    color: "#333",
   },
   logoutPrompt: {
     position: "absolute",
@@ -379,8 +443,8 @@ const styles = StyleSheet.create({
     left: "10%",
     right: "10%",
     backgroundColor: "white",
-    padding: 20,
-    borderRadius: 10,
+    padding: responsiveWidth(5),
+    borderRadius: responsiveWidth(3),
     shadowColor: "black",
     shadowOpacity: 0.1,
     shadowRadius: 5,
@@ -388,9 +452,9 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   logoutText: {
-    fontSize: width > 400 ? 16 : 14,
+    fontSize: width < 380 ? 14 : 16,
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: responsiveHeight(2),
     fontFamily: "Outfit-Regular",
   },
   logoutButtons: {
@@ -399,18 +463,20 @@ const styles = StyleSheet.create({
   },
   confirmButton: {
     backgroundColor: "#F157A4",
-    padding: 10,
-    borderRadius: 5,
+    paddingHorizontal: responsiveWidth(6),
+    paddingVertical: responsiveHeight(1.5),
+    borderRadius: responsiveWidth(1.5),
   },
   cancelButton: {
     backgroundColor: "gray",
-    padding: 10,
-    borderRadius: 5,
+    paddingHorizontal: responsiveWidth(6),
+    paddingVertical: responsiveHeight(1.5),
+    borderRadius: responsiveWidth(1.5),
   },
   buttonText: {
     color: "white",
     fontFamily: "Outfit-Regular",
-    fontSize: width > 400 ? 14 : 12,
+    fontSize: width < 380 ? 12 : 14,
   },
   loadingContainer: {
     flex: 1,
@@ -419,7 +485,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fbeaea",
   },
   bottomPadding: {
-    height: 10,
+    height: responsiveHeight(2),
   },
 });
 
