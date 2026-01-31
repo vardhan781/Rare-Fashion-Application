@@ -31,7 +31,7 @@ const Wishlist = ({ navigation }) => {
   useEffect(() => {
     if (products.length > 0 && wishlistItems.length > 0) {
       const wishlistProducts = products.filter((product) =>
-        wishlistItems.includes(product._id)
+        wishlistItems.includes(product._id),
       );
       setFilteredProducts(wishlistProducts);
     } else {
@@ -39,6 +39,44 @@ const Wishlist = ({ navigation }) => {
     }
     setIsLoading(false);
   }, [products, wishlistItems]);
+
+  const ProductImageWithFallback = ({ imageUri, style }) => {
+    const [imageError, setImageError] = useState(false);
+    const [imageLoading, setImageLoading] = useState(true);
+
+    if (imageError) {
+      return (
+        <View style={[style, styles.fallbackContainer]}>
+          <Text style={styles.rfText}>RF</Text>
+        </View>
+      );
+    }
+
+    return (
+      <View>
+        <Image
+          source={{ uri: imageUri }}
+          style={style}
+          resizeMode="cover"
+          onError={() => {
+            setImageError(true);
+            setImageLoading(false);
+          }}
+          onLoad={() => {
+            setImageLoading(false);
+            setImageError(false);
+          }}
+        />
+        {imageLoading && (
+          <View
+            style={[style, styles.imageLoadingOverlay, StyleSheet.absoluteFill]}
+          >
+            <Ionicons name="sparkles" size={16} color="hotpink" />
+          </View>
+        )}
+      </View>
+    );
+  };
 
   const renderItem = ({ item }) => {
     if (!item || !item._id) return null;
@@ -52,10 +90,9 @@ const Wishlist = ({ navigation }) => {
           style={styles.imageContainer}
           activeOpacity={0.8}
         >
-          <Image
-            source={{ uri: item.image }}
+          <ProductImageWithFallback
+            imageUri={item.image}
             style={styles.productImage}
-            resizeMode="cover"
           />
           <View style={styles.badgeContainer}>
             {item.bestseller && (
@@ -210,6 +247,28 @@ const styles = StyleSheet.create({
   productImage: {
     width: width * 0.25,
     height: width * 0.375,
+    borderRadius: width * 0.02,
+    backgroundColor: "#fbeaea",
+  },
+  fallbackContainer: {
+    backgroundColor: "#FF69B4",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: width * 0.02,
+  },
+  rfText: {
+    fontFamily: "Prata-Regular",
+    fontSize: 20,
+    color: "white",
+    letterSpacing: 1,
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowOffset: { width: 0.5, height: 0.5 },
+    textShadowRadius: 2,
+  },
+  imageLoadingOverlay: {
+    backgroundColor: "rgba(251, 234, 234, 0.7)",
+    justifyContent: "center",
+    alignItems: "center",
     borderRadius: width * 0.02,
   },
   badgeContainer: {

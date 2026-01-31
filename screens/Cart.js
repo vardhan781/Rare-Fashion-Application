@@ -52,6 +52,44 @@ const Cart = () => {
     }
   }, [cartItems, products]);
 
+  const CartImageWithFallback = ({ imageUri, style }) => {
+    const [imageError, setImageError] = useState(false);
+    const [imageLoading, setImageLoading] = useState(true);
+
+    if (imageError) {
+      return (
+        <View style={[style, styles.fallbackContainer]}>
+          <Text style={styles.rfText}>RF</Text>
+        </View>
+      );
+    }
+
+    return (
+      <View>
+        <Image
+          source={{ uri: imageUri }}
+          style={style}
+          resizeMode="cover"
+          onError={() => {
+            setImageError(true);
+            setImageLoading(false);
+          }}
+          onLoad={() => {
+            setImageLoading(false);
+            setImageError(false);
+          }}
+        />
+        {imageLoading && (
+          <View
+            style={[style, styles.imageLoadingOverlay, StyleSheet.absoluteFill]}
+          >
+            <MaterialIcons name="sparkles" size={16} color="#E75480" />
+          </View>
+        )}
+      </View>
+    );
+  };
+
   const handleCheckout = () => {
     if (getCartAmount() === 0) {
       navigation.navigate("Collection");
@@ -69,10 +107,9 @@ const Cart = () => {
     return (
       <View style={styles.cartItem}>
         <View style={styles.leftSection}>
-          <Image
-            source={{ uri: productData.image }}
+          <CartImageWithFallback
+            imageUri={productData.image}
             style={styles.image}
-            resizeMode="cover"
           />
           <View style={styles.detail}>
             <Text style={styles.name} numberOfLines={1} ellipsizeMode="tail">
@@ -341,6 +378,27 @@ const styles = StyleSheet.create({
     height: width > 400 ? 130 : 115,
     borderRadius: 10,
     backgroundColor: "#FFF0F5",
+  },
+  fallbackContainer: {
+    backgroundColor: "#FF69B4",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  rfText: {
+    fontFamily: "Prata-Regular",
+    fontSize: 16,
+    color: "white",
+    letterSpacing: 1,
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowOffset: { width: 0.5, height: 0.5 },
+    textShadowRadius: 1,
+  },
+  imageLoadingOverlay: {
+    backgroundColor: "rgba(255, 249, 251, 0.7)",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
   },
   detail: {
     flex: 1,

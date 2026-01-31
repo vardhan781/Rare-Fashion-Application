@@ -14,7 +14,10 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import CustomToast from "./CustomToast";
 import { ShopContext } from "../context/ShopContext";
-import { SafeAreaView,useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 const { width, height } = Dimensions.get("window");
 
@@ -25,8 +28,10 @@ const Product = () => {
     useContext(ShopContext);
   const [selectedSize, setSelectedSize] = useState("");
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
   const navigation = useNavigation();
-  const insets = useSafeAreaInsets()
+  const insets = useSafeAreaInsets();
   const fadeAnim = useRef(new Animated.Value(1)).current;
 
   const [toastConfig, setToastConfig] = useState({
@@ -90,6 +95,16 @@ const Product = () => {
     }
   };
 
+  const handleImageError = () => {
+    setImageError(true);
+    setImageLoading(false);
+  };
+
+  const handleImageLoad = () => {
+    setImageLoading(false);
+    setImageError(false);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -114,11 +129,47 @@ const Product = () => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.imageContainer}>
-          <Image
-            source={{ uri: image }}
-            style={styles.productImage}
-            resizeMode="contain"
-          />
+          {!imageError ? (
+            <>
+              <Image
+                source={{ uri: image }}
+                style={styles.productImage}
+                resizeMode="contain"
+                onError={handleImageError}
+                onLoad={handleImageLoad}
+              />
+              {imageLoading && (
+                <View style={styles.imageLoadingOverlay}>
+                  <Ionicons name="sparkles" size={40} color="hotpink" />
+                </View>
+              )}
+            </>
+          ) : (
+            <View style={[styles.productImage, styles.fallbackContainer]}>
+              <View style={styles.fallbackContent}>
+                <Text style={styles.fallbackBrand}>RARE</Text>
+                <Text style={styles.fallbackBrand}>FASHION</Text>
+
+                <View style={styles.sparkleRow}>
+                  <Ionicons
+                    name="sparkles"
+                    size={20}
+                    color="rgba(255,255,255,0.7)"
+                  />
+                  <Ionicons
+                    name="sparkles"
+                    size={20}
+                    color="rgba(255,255,255,0.7)"
+                  />
+                  <Ionicons
+                    name="sparkles"
+                    size={20}
+                    color="rgba(255,255,255,0.7)"
+                  />
+                </View>
+              </View>
+            </View>
+          )}
         </View>
 
         <View style={styles.infoContainer}>
@@ -187,9 +238,14 @@ const Product = () => {
         </View>
       </ScrollView>
 
-      <View style={[styles.footer, { 
-        paddingBottom: insets.bottom + 10
-      }]}>
+      <View
+        style={[
+          styles.footer,
+          {
+            paddingBottom: insets.bottom + 10,
+          },
+        ]}
+      >
         <TouchableOpacity
           style={[
             styles.addToCartButton,
@@ -253,6 +309,38 @@ const styles = StyleSheet.create({
   productImage: {
     width: width * 0.8,
     height: width * 0.8,
+    backgroundColor: "#fbeaea",
+  },
+  // Fallback for large product image
+  fallbackContainer: {
+    backgroundColor: "#FF69B4",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  fallbackContent: {
+    alignItems: "center",
+    padding: 30,
+  },
+  fallbackBrand: {
+    fontFamily: "Prata-Regular",
+    fontSize: 28,
+    color: "white",
+    letterSpacing: 2,
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
+  },
+  sparkleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 15,
+    gap: 10,
+  },
+  imageLoadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(251, 234, 234, 0.7)",
+    justifyContent: "center",
+    alignItems: "center",
   },
   infoContainer: {
     padding: width * 0.05,

@@ -80,11 +80,6 @@ const ProductItem = ({
     setImageError(false);
   };
 
-  const retryImageLoad = () => {
-    setImageError(false);
-    setImageLoading(true);
-  };
-
   if (!fontsLoaded || !id) {
     return null;
   }
@@ -119,11 +114,7 @@ const ProductItem = ({
             )}
           </>
         ) : (
-          <TouchableOpacity
-            style={[styles.productImage, styles.fallbackContainer]}
-            onPress={retryImageLoad}
-            activeOpacity={0.9}
-          >
+          <View style={[styles.productImage, styles.fallbackContainer]}>
             <View style={styles.fallbackContent}>
               <Text style={styles.fallbackBrand}>RARE</Text>
               <Text style={styles.fallbackBrand}>FASHION</Text>
@@ -131,18 +122,22 @@ const ProductItem = ({
               <View style={styles.sparkleRow}>
                 <Ionicons
                   name="sparkles"
-                  size={14}
-                  color="rgba(255,255,255,0.8)"
+                  size={16}
+                  color="rgba(255,255,255,0.7)"
                 />
-                <Text style={styles.retryText}>Tap to retry</Text>
                 <Ionicons
                   name="sparkles"
-                  size={14}
-                  color="rgba(255,255,255,0.8)"
+                  size={16}
+                  color="rgba(255,255,255,0.7)"
+                />
+                <Ionicons
+                  name="sparkles"
+                  size={16}
+                  color="rgba(255,255,255,0.7)"
                 />
               </View>
             </View>
-          </TouchableOpacity>
+          </View>
         )}
         {bestseller && (
           <View style={styles.bestsellerSticker}>
@@ -220,13 +215,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 12,
     gap: 6,
-  },
-  retryText: {
-    fontFamily: "Outfit-Regular",
-    fontSize: 11,
-    color: "rgba(255,255,255,0.9)",
-    letterSpacing: 0.5,
-    marginHorizontal: 5,
   },
   imageLoadingOverlay: {
     ...StyleSheet.absoluteFillObject,

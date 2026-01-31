@@ -25,6 +25,43 @@ const Orders = () => {
   const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation();
 
+  const OrderImageWithFallback = ({ imageUri, style }) => {
+    const [imageError, setImageError] = useState(false);
+    const [imageLoading, setImageLoading] = useState(true);
+
+    if (imageError) {
+      return (
+        <View style={[style, styles.fallbackContainer]}>
+          <Text style={styles.rfText}>RF</Text>
+        </View>
+      );
+    }
+
+    return (
+      <View>
+        <Image
+          source={{ uri: imageUri }}
+          style={style}
+          onError={() => {
+            setImageError(true);
+            setImageLoading(false);
+          }}
+          onLoad={() => {
+            setImageLoading(false);
+            setImageError(false);
+          }}
+        />
+        {imageLoading && (
+          <View
+            style={[style, styles.imageLoadingOverlay, StyleSheet.absoluteFill]}
+          >
+            <Ionicons name="sparkles" size={16} color="#FF3E6C" />
+          </View>
+        )}
+      </View>
+    );
+  };
+
   const loadOrderData = async () => {
     try {
       if (!token) {
@@ -34,7 +71,7 @@ const Orders = () => {
       const response = await axios.post(
         serverUrl + "/api/order/userorders",
         {},
-        { headers: { token } }
+        { headers: { token } },
       );
       if (response.data.success) {
         let allOrdersItem = [];
@@ -165,8 +202,8 @@ const Orders = () => {
                 </View>
 
                 <View style={styles.orderBody}>
-                  <Image
-                    source={{ uri: item.image }}
+                  <OrderImageWithFallback
+                    imageUri={item.image}
                     style={styles.productImage}
                   />
                   <View style={styles.productDetails}>
@@ -348,6 +385,30 @@ const styles = StyleSheet.create({
     borderRadius: width * 0.025,
     borderWidth: 1,
     borderColor: "#FFE5EC",
+    backgroundColor: "#FFF9FB",
+  },
+  fallbackContainer: {
+    backgroundColor: "#FF69B4",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: width * 0.025,
+    borderWidth: 1,
+    borderColor: "#FFE5EC",
+  },
+  rfText: {
+    fontFamily: "Prata-Regular",
+    fontSize: 16,
+    color: "white",
+    letterSpacing: 1,
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowOffset: { width: 0.5, height: 0.5 },
+    textShadowRadius: 1,
+  },
+  imageLoadingOverlay: {
+    backgroundColor: "rgba(255, 249, 251, 0.7)",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: width * 0.025,
   },
   productDetails: {
     flex: 1,
