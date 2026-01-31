@@ -182,14 +182,11 @@ const Collection = () => {
     <SafeAreaView style={styles.container}>
       <View style={styles.navbar}>
         <Pressable onPress={() => navigation.goBack()}>
-          <Image
-            source={assets.left_arrow}
-            style={[styles.navbar_img, { transform: [{ rotate: "180deg" }] }]}
-          />
+          <Ionicons name="arrow-back" size={32} color="#FF69B4" />
         </Pressable>
         <View style={styles.searchContainer}>
           <View style={styles.searchBox}>
-            <Image source={assets.search_icon} style={styles.searchIcon} />
+            <Ionicons name="search" size={22} color="gray" />
             <TextInput
               ref={searchInputRef}
               style={styles.searchInput}
@@ -213,7 +210,7 @@ const Collection = () => {
           </View>
         </View>
         <Pressable onPress={() => navigation.navigate("Wishlist")}>
-          <Image source={assets.wishlist} style={styles.navbar_img} />
+          <Ionicons name="heart-outline" size={32} color="#FF69B4" />
         </Pressable>
       </View>
       <View style={styles.collectionModule}>
@@ -249,9 +246,14 @@ const Collection = () => {
         )}
       </View>
 
-      <View style={[styles.filterButtonContainer, { 
-        bottom: insets.bottom + 20
-      }]}>
+      <View
+        style={[
+          styles.filterButtonContainer,
+          {
+            bottom: insets.bottom + 20,
+          },
+        ]}
+      >
         <TouchableOpacity
           style={styles.filterButton}
           onPress={toggleFilterModal}
@@ -353,7 +355,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 10,
-    paddingVertical:10,
+    paddingVertical: 10,
     alignItems: "center",
     gap: 5,
   },
@@ -372,10 +374,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     paddingVertical: 8,
     backgroundColor: "#fff",
-  },
-  searchIcon: {
-    height: 22,
-    width: 22,
   },
   searchInput: {
     flex: 1,
@@ -397,11 +395,6 @@ const styles = StyleSheet.create({
   flatListContent: {
     paddingBottom: 20,
     alignItems: "center",
-  },
-  navbar_img: {
-    width: 32,
-    height: 32,
-    flex: 0,
   },
   filterButtonContainer: {
     position: "absolute",

@@ -1,17 +1,16 @@
 import {
   StyleSheet,
   Text,
-  Image,
   View,
   ScrollView,
   Pressable,
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import { assets } from "../assets/assets";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
@@ -30,11 +29,17 @@ const Profile = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.navbar}>
-        <Image style={styles.navbar_profile} source={assets.user} />
-        <Text style={styles.greeting}>
-          Hey, <Text style={styles.username}>User</Text>
-        </Text>
-        <Image style={styles.navbar_arrow} source={assets.left_arrow} />
+        <Ionicons
+          name="person-circle-outline"
+          size={width * 0.15}
+          color="#FF69B4"
+        />
+        <View style={styles.greetingContainer}>
+          <Text style={styles.greeting}>
+            Hey, <Text style={styles.username}>User</Text>
+          </Text>
+        </View>
+        <Ionicons name="arrow-forward" size={width * 0.08} color="#FF69B4" />
       </View>
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
@@ -45,16 +50,30 @@ const Profile = () => {
             <Text style={styles.head_link}>My Account</Text>
             <View style={styles.things}>
               <View style={styles.ind_thing}>
-                <Pressable onPress={() => navigation.navigate("Orders")}>
-                  <Image source={assets.courier} style={styles.thing_img} />
+                <Pressable
+                  style={styles.iconButton}
+                  onPress={() => navigation.navigate("Orders")}
+                >
+                  <Ionicons
+                    name="cube-outline"
+                    size={width * 0.13}
+                    color="#FF69B4"
+                  />
                   <Text style={styles.thing_name}>Orders</Text>
                 </Pressable>
               </View>
+
+              <View style={styles.spacer} />
+
               <View style={styles.ind_thing}>
-                <Pressable onPress={() => navigation.navigate("Wishlist")}>
-                  <Image
-                    source={assets.wishprofile}
-                    style={[styles.thing_img, { marginLeft: width * 0.02 }]}
+                <Pressable
+                  style={styles.iconButton}
+                  onPress={() => navigation.navigate("Wishlist")}
+                >
+                  <Ionicons
+                    name="heart-outline"
+                    size={width * 0.13}
+                    color="#FF69B4"
                   />
                   <Text style={styles.thing_name}>WishList</Text>
                 </Pressable>
@@ -66,14 +85,31 @@ const Profile = () => {
             <Text style={styles.head_link}>Help Center</Text>
             <View style={styles.things}>
               <View style={styles.ind_thing}>
-                <Pressable onPress={() => navigation.navigate("Contact")}>
-                  <Image source={assets.contact} style={styles.thing_img} />
+                <Pressable
+                  style={styles.iconButton}
+                  onPress={() => navigation.navigate("Contact")}
+                >
+                  <Ionicons
+                    name="chatbubble-outline"
+                    size={width * 0.13}
+                    color="#FF69B4"
+                  />
                   <Text style={styles.thing_name}>Contact{"\n"}Us</Text>
                 </Pressable>
               </View>
+
+              <View style={styles.spacer} />
+
               <View style={styles.ind_thing}>
-                <Pressable onPress={() => navigation.navigate("Privacy")}>
-                  <Image source={assets.privacy} style={styles.thing_img} />
+                <Pressable
+                  style={styles.iconButton}
+                  onPress={() => navigation.navigate("Privacy")}
+                >
+                  <Ionicons
+                    name="shield-checkmark-outline"
+                    size={width * 0.13}
+                    color="#FF69B4"
+                  />
                   <Text style={styles.thing_name}>Privacy{"\n"}Policy</Text>
                 </Pressable>
               </View>
@@ -84,14 +120,31 @@ const Profile = () => {
             <Text style={styles.head_link}>About RF!</Text>
             <View style={styles.things}>
               <View style={styles.ind_thing}>
-                <Pressable onPress={() => navigation.navigate("About")}>
-                  <Image source={assets.about} style={styles.thing_img} />
+                <Pressable
+                  style={styles.iconButton}
+                  onPress={() => navigation.navigate("About")}
+                >
+                  <Ionicons
+                    name="information-circle-outline"
+                    size={width * 0.13}
+                    color="#FF69B4"
+                  />
                   <Text style={styles.thing_name}>About{"\n"}Us</Text>
                 </Pressable>
               </View>
+
+              <View style={styles.spacer} />
+
               <View style={styles.ind_thing}>
-                <TouchableOpacity onPress={() => navigation.navigate("Terms")}>
-                  <Image source={assets.folder} style={styles.thing_img} />
+                <TouchableOpacity
+                  style={styles.iconButton}
+                  onPress={() => navigation.navigate("Terms")}
+                >
+                  <Ionicons
+                    name="document-text-outline"
+                    size={width * 0.13}
+                    color="#FF69B4"
+                  />
                   <Text style={styles.thing_name}>Terms{"\n"}Of Use</Text>
                 </TouchableOpacity>
               </View>
@@ -110,31 +163,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fbeaea",
     paddingHorizontal: width * 0.05,
-    paddingVertical: height * 0.01,
+    paddingVertical: height * 0.02,
   },
   navbar: {
-    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingVertical: height * 0.02,
   },
-  navbar_profile: {
-    width: width * 0.15,
-    height: width * 0.15,
-    maxWidth: 65,
-    maxHeight: 65,
-  },
-  navbar_arrow: {
-    width: width * 0.08,
-    height: width * 0.08,
-    maxWidth: 34,
-    maxHeight: 34,
+  greetingContainer: {
+    flex: 1,
+    alignItems: "center",
   },
   greeting: {
     fontSize: width * 0.05,
     fontWeight: "600",
     color: "#333",
     fontFamily: "Lato_600SemiBold",
+    textAlign: "center",
   },
   username: {
     color: "#FF3E6C",
@@ -143,59 +189,53 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     flexGrow: 1,
-    alignItems: "center",
     paddingBottom: height * 0.05,
   },
   links: {
-    display: "flex",
     flexDirection: "column",
-    gap: height * 0.02,
-    marginTop: height * 0.04,
+    gap: height * 0.06,
+    marginTop: height * 0.03,
     width: "100%",
-    alignItems: "center",
   },
   ind_link: {
-    display: "flex",
     flexDirection: "column",
-    gap: height * 0.02,
-    alignItems: "center",
+    gap: height * 0.015,
     width: "100%",
-    justifyContent: "center",
   },
   head_link: {
     fontSize: width * 0.07,
     fontFamily: "Outfit-SemiBold",
     color: "#454040",
-    width: "100%",
     textAlign: "center",
+    paddingBottom: height * 0.015,
   },
   things: {
-    display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
     borderTopColor: "#FFC2C2",
     borderTopWidth: 3,
-    paddingVertical: height * 0.025,
-    paddingHorizontal: width * 0.04,
+    paddingVertical: height * 0.035,
+    paddingHorizontal: width * 0.05,
   },
   ind_thing: {
-    display: "flex",
-    flexDirection: "column",
     alignItems: "center",
-    gap: height * 0.01,
+    justifyContent: "center",
   },
-  thing_img: {
-    width: width * 0.13,
-    height: width * 0.13,
-    maxWidth: 52,
-    maxHeight: 52,
+  spacer: {
+    width: width * 0.1,
+  },
+  iconButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    minWidth: width * 0.25,
   },
   thing_name: {
     fontFamily: "Inter",
-    fontSize: width * 0.04,
+    fontSize: width * 0.035,
     textAlign: "center",
-    marginTop: height * 0.01,
+    marginTop: height * 0.018,
+    lineHeight: width * 0.045,
   },
 });

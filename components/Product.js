@@ -309,9 +309,7 @@ const styles = StyleSheet.create({
   productImage: {
     width: width * 0.8,
     height: width * 0.8,
-    backgroundColor: "#fbeaea",
   },
-  // Fallback for large product image
   fallbackContainer: {
     backgroundColor: "#FF69B4",
     justifyContent: "center",

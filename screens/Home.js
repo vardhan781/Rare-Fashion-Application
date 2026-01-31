@@ -19,6 +19,7 @@ import { Dimensions } from "react-native";
 import { ShopContext } from "../context/ShopContext";
 import CustomToast from "../components/CustomToast";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 
 const { height, width } = Dimensions.get("window");
 
@@ -105,18 +106,14 @@ function Home() {
 
       <View style={styles.navbar}>
         <TouchableOpacity activeOpacity={0.7} onPress={openSidebar}>
-          <Image
-            source={assets.menu}
-            style={styles.navbar_img}
-            accessible={false}
-          />
+          <Ionicons name="menu-outline" size={width * 0.09} color="#FF69B4" />
         </TouchableOpacity>
         <Text style={styles.navbar_header}>HOME</Text>
         <TouchableOpacity activeOpacity={0.7} onPress={handleLoginPress}>
-          <Image
-            source={assets.login_path}
-            style={styles.navbar_img}
-            accessible={false}
+          <Ionicons
+            name={token ? "log-out-outline" : "log-in-outline"}
+            size={width * 0.09}
+            color="#FF69B4"
           />
         </TouchableOpacity>
       </View>
@@ -169,7 +166,11 @@ function Home() {
             style={styles.button_container}
           >
             <Text style={styles.shop_button}>shop now</Text>
-            <Image source={assets.arrows} style={styles.button_arrow} />
+            <Ionicons
+              name="arrow-forward"
+              size={width * 0.07}
+              color="#F157A4"
+            />
           </TouchableOpacity>
         </View>
 
@@ -191,7 +192,11 @@ function Home() {
             </TouchableOpacity>
           </View>
           <Pressable onPress={() => navigation.navigate("Collection")}>
-            <Image source={assets.right_arrow} style={styles.right_arrow} />
+            <Ionicons
+              name="chevron-forward-circle"
+              size={width * 0.15}
+              color="#FF69B4"
+            />
           </Pressable>
         </View>
 
@@ -242,12 +247,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     zIndex: 2,
-  },
-  navbar_img: {
-    width: width * 0.09,
-    height: width * 0.09,
-    maxWidth: 34,
-    maxHeight: 34,
   },
   navbar_header: {
     fontSize: width > 400 ? 26 : 22,
@@ -309,12 +308,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff52",
     borderRadius: 34,
   },
-  button_arrow: {
-    width: width * 0.07,
-    height: width * 0.07,
-    maxWidth: 28,
-    maxHeight: 28,
-  },
   shop_button: {
     fontFamily: "Prata-Regular",
     color: "#F157A4",
@@ -351,12 +344,6 @@ const styles = StyleSheet.create({
     height: height * 0.18,
     maxHeight: 150,
     aspectRatio: 2 / 3,
-  },
-  right_arrow: {
-    width: width * 0.15,
-    height: width * 0.15,
-    maxWidth: 64,
-    maxHeight: 64,
   },
   quotes: {
     width: "100%",
