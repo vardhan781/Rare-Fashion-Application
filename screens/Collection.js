@@ -270,7 +270,7 @@ const Collection = () => {
               {
                 transform: [{ translateY: filterModalTranslateY }],
                 paddingBottom:
-                  Platform.OS === "android" ? insets.bottom + 40 : 0,
+                  Platform.OS === "android" ? insets.bottom + 40 : 20,
               },
             ]}
           >

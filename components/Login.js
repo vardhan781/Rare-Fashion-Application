@@ -44,18 +44,15 @@ const Login = () => {
     setIsLoading(true);
     try {
       if (currState === "Sign Up") {
-        const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
         const response = await axios.post(`${serverUrl}/api/user/register`, {
           name,
           email,
           password,
-          otp,
         });
 
         if (response.data.success) {
           showToast(response.data.message, "success");
-          navigation.navigate("Otp", { email, generatedOtp: otp });
+          navigation.navigate("Otp", { email });
         } else {
           showToast(response.data.message, "error");
         }
@@ -72,15 +69,12 @@ const Login = () => {
           navigation.goBack();
         } else {
           showToast(response.data.message, "error");
-          if (response.data.message === "Please Verify") {
-            const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-            await axios.post(`${serverUrl}/api/user/resend-otp`, {
-              email,
-              otp,
-            });
-
-            navigation.navigate("Otp", { email, generatedOtp: otp });
+          if (
+            response.data.message.includes("OTP sent") ||
+            response.data.message.includes("verify")
+          ) {
+            navigation.navigate("Otp", { email });
           }
         }
       }
@@ -90,7 +84,7 @@ const Login = () => {
         error.response?.data?.message ||
           error.message ||
           "Network error. Please try again.",
-        "error"
+        "error",
       );
     } finally {
       setIsLoading(false);
@@ -159,8 +153,8 @@ const Login = () => {
                   {isLoading
                     ? "Please Wait..."
                     : currState === "Login"
-                    ? "Sign In"
-                    : "Create Account"}
+                      ? "Sign In"
+                      : "Create Account"}
                 </Text>
               </LinearGradient>
             </TouchableOpacity>
