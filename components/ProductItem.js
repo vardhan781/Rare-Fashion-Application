@@ -116,8 +116,16 @@ const ProductItem = ({
         ) : (
           <View style={[styles.productImage, styles.fallbackContainer]}>
             <View style={styles.fallbackContent}>
-              <Text style={styles.fallbackBrand}>RARE</Text>
-              <Text style={styles.fallbackBrand}>FASHION</Text>
+              <View style={styles.brandTextWrapper}>
+                <Text
+                  style={styles.fallbackBrand}
+                  numberOfLines={1}
+                  adjustsFontSizeToFit={true}
+                  minimumFontScale={0.8}
+                >
+                  RARE FASHION
+                </Text>
+              </View>
 
               <View style={styles.sparkleRow}>
                 <Ionicons
@@ -199,22 +207,37 @@ const styles = StyleSheet.create({
   },
   fallbackContent: {
     alignItems: "center",
-    padding: 20,
+    justifyContent: "center",
+    width: "100%",
+    paddingHorizontal: 10,
+  },
+  brandTextWrapper: {
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 5,
   },
   fallbackBrand: {
     fontFamily: "Prata-Regular",
-    fontSize: 22,
+    fontSize: 20,
     color: "white",
-    letterSpacing: 2,
+    letterSpacing: 1.5,
     textShadowColor: "rgba(0, 0, 0, 0.2)",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 3,
+    textAlign: "center",
+    includeFontPadding: false,
+    fontSize: Math.min(20, width * 0.045),
+    width: "100%",
+    lineHeight: Math.min(22, width * 0.05),
+    flexShrink: 1,
   },
   sparkleRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 12,
+    marginTop: 8,
     gap: 6,
+    justifyContent: "center",
   },
   imageLoadingOverlay: {
     ...StyleSheet.absoluteFillObject,
